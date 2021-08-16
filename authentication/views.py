@@ -1,6 +1,6 @@
-from django.contrib.auth import login
-from django.shortcuts import get_object_or_404
+from django.contrib.auth import login, logout
 from rest_framework import generics
+from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
@@ -17,3 +17,9 @@ class LoginAPIView(generics.GenericAPIView):
         user = serializer.validated_data['user']
         login(request, user)
         return Response({'detail': ['ログインに成功しました']})
+
+
+class LogoutAPIView(APIView):
+    def post(self, request, *args, **kwargs):
+        logout(request)
+        return Response({'detail': ['ログアウトに成功しました']})
