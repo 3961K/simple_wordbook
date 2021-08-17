@@ -4,7 +4,8 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from .serializers import LoginSerializer
+from .models import User
+from .serializers import LoginSerializer, RegisterSerializer
 
 
 class LoginAPIView(generics.GenericAPIView):
@@ -23,3 +24,15 @@ class LogoutAPIView(APIView):
     def post(self, request, *args, **kwargs):
         logout(request)
         return Response({'detail': ['ログアウトに成功しました']})
+
+
+class RegisterAPIView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = RegisterSerializer
+    permission_classes = [AllowAny]
+
+    def get_serializer(self, *args, **kwargs):
+        serializer_class = self.get_serializer_class()
+        kwargs.setdefault('context', self.get_serializer_context())
+        kwargs.update({'request': self.request})
+        return serializer_class(*args, **kwargs)
