@@ -73,8 +73,8 @@ class LoginAPIViewTest(TestCase):
 
             # JSONレスポンスの確認
             if index == 0:
-                expected_json_dict = {"password": ["This field is required."]}
+                expected_json_dict = {'password': ['この項目は必須です。']}
             elif index == 1:
-                expected_json_dict = {"username": ["This field is required."]}
+                expected_json_dict = {'username': ['この項目は必須です。']}
 
             self.assertJSONEqual(response.content, expected_json_dict)

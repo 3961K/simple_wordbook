@@ -61,11 +61,11 @@ class RegisterAPIViewTest(TestCase):
 
             # JSONレスポンスの確認
             if index == 0:
-                expected_json_dict = {"username": ["Ensure this field has no more than 30 characters."]}
+                expected_json_dict = {'username': ['この項目が30文字より長くならないようにしてください。']}
             elif index == 1:
-                expected_json_dict = {"email": ["Enter a valid email address."]}
+                expected_json_dict = {'email': ['有効なメールアドレスを入力してください。']}
             elif index == 2:
-                expected_json_dict = {"password": ["Password fields didn\'t match."]}
+                expected_json_dict = {'password': ['入力されたパスワードが一致しません。']}
 
             self.assertJSONEqual(response.content, expected_json_dict)
 
@@ -103,12 +103,12 @@ class RegisterAPIViewTest(TestCase):
 
             # JSONレスポンスの確認
             if index == 0:
-                expected_json_dict = {"username": ["This field is required."]}
+                expected_json_dict = {'username': ['この項目は必須です。']}
             elif index == 1:
-                expected_json_dict = {"email": ["This field is required."]}
+                expected_json_dict = {'email': ['この項目は必須です。']}
             elif index == 2:
-                expected_json_dict = {"password": ["This field is required."]}
+                expected_json_dict = {'password': ['この項目は必須です。']}
             elif index == 3:
-                expected_json_dict = {"password2": ["This field is required."]}
+                expected_json_dict = {'password2': ['この項目は必須です。']}
 
             self.assertJSONEqual(response.content, expected_json_dict)
