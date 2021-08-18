@@ -29,7 +29,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'authentication'
+    'api',
+    'api.v1',
+    'api.v1.authentication',
 ]
 
 MIDDLEWARE = [
@@ -111,4 +113,4 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = "authentication.User"
+AUTH_USER_MODEL = 'authentication.User'

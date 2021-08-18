@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
+from django.urls import reverse
 
 User = get_user_model()
 
@@ -19,7 +20,7 @@ class LoginAPIViewTest(TestCase):
             'password': 'testpassw0rd123'
         }
 
-        response = self.client.post('/authentication/login/',
+        response = self.client.post(reverse('api:v1:authentication:login'),
                                     params,
                                     format='json')
         # ステータスコードの確認
@@ -43,7 +44,7 @@ class LoginAPIViewTest(TestCase):
 
         for params in params_list:
             # ステータスコードの確認
-            response = self.client.post('/authentication/login/',
+            response = self.client.post(reverse('api:v1:authentication:login'),
                                         params,
                                         format='json')
             self.assertEqual(response.status_code, 400)
@@ -65,7 +66,7 @@ class LoginAPIViewTest(TestCase):
 
         for index, params in enumerate(params_list):
             # ステータスコードの確認
-            response = self.client.post('/authentication/login/',
+            response = self.client.post(reverse('api:v1:authentication:login'),
                                         params,
                                         format='json')
             self.assertEqual(response.status_code, 400)
