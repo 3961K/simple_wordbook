@@ -59,7 +59,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError(
-                {"password": "Password fields didn't match."}
+                {'password': ['入力されたパスワードが一致しません。']}
             )
         return attrs
 
