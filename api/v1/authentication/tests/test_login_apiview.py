@@ -78,3 +78,9 @@ class LoginAPIViewTest(TestCase):
                 expected_json_dict = {'username': ['この項目は必須です。']}
 
             self.assertJSONEqual(response.content, expected_json_dict)
+
+    @classmethod
+    def tearDownClass(cls):
+        user = User.objects.get(username='login_apiview')
+        user.delete()
+        return super().tearDownClass()
