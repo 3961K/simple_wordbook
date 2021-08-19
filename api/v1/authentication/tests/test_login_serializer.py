@@ -9,10 +9,10 @@ User = get_user_model()
 class LoginSerializerTest(TestCase):
     @classmethod
     def setUpClass(cls):
+        super().setUpClass()
         User.objects.create_user(username='login_serializer',
                                  email='login_serializer@test.com',
                                  password='testpassw0rd123')
-        return super().setUpClass()
 
     def test_valid(self):
         # 正しいユーザ情報は認証する情報として妥当
@@ -54,9 +54,3 @@ class LoginSerializerTest(TestCase):
         for input_data in input_data_list:
             serializer = LoginSerializer(data=input_data)
             self.assertFalse(serializer.is_valid())
-
-    @classmethod
-    def tearDownClass(cls):
-        user = User.objects.get(username='login_serializer')
-        user.delete()
-        return super().tearDownClass()

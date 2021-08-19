@@ -8,10 +8,10 @@ User = get_user_model()
 class LoginAPIViewTest(TestCase):
     @classmethod
     def setUpClass(cls):
+        super().setUpClass()
         User.objects.create_user(username='login_apiview',
                                  email='login_apiview@test.com',
                                  password='testpassw0rd123')
-        return super().setUpClass()
 
     def test_success_authenticate(self):
         # 正しいユーザ情報によって認証を行う事が出来る
@@ -78,9 +78,3 @@ class LoginAPIViewTest(TestCase):
                 expected_json_dict = {'username': ['この項目は必須です。']}
 
             self.assertJSONEqual(response.content, expected_json_dict)
-
-    @classmethod
-    def tearDownClass(cls):
-        user = User.objects.get(username='login_apiview')
-        user.delete()
-        return super().tearDownClass()
