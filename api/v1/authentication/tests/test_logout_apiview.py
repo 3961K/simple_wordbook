@@ -23,3 +23,9 @@ class LogoutAPIViewTest(TestCase):
         # JSONレスポンスの確認
         expected_json_dict = {'detail': ['ログアウトに成功しました']}
         self.assertJSONEqual(response.content, expected_json_dict)
+
+    @classmethod
+    def tearDownClass(cls):
+        user = User.objects.get(username='logout_apiview')
+        user.delete()
+        return super().tearDownClass()

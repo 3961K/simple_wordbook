@@ -54,3 +54,9 @@ class LoginSerializerTest(TestCase):
         for input_data in input_data_list:
             serializer = LoginSerializer(data=input_data)
             self.assertFalse(serializer.is_valid())
+
+    @classmethod
+    def tearDownClass(cls):
+        user = User.objects.get(username='login_serializer')
+        user.delete()
+        return super().tearDownClass()
