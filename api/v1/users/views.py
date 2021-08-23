@@ -1,10 +1,11 @@
 from django.contrib.auth import get_user_model
 from django_filters import rest_framework as filters
-from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.mixins import UpdateModelMixin
+from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from .permissions import IsSelfOrReadOnly
-from .serializers import UserSerializer, UserPrivateSerializer
+from .serializers import UserSerializer, UserPrivateSerializer, PasswordChangeSerializer
 
 User = get_user_model()
 
@@ -47,3 +48,21 @@ class UserRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
         lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
         return [permission(username=(self.kwargs[lookup_url_kwarg]))
                 for permission in self.permission_classes]
+
+
+class OnlyPartialAPIView(UpdateModelMixin, GenericAPIView):
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+
+class PasswordChangeAPIView(OnlyPartialAPIView):
+    lookup_field = 'username'
+    queryset = User.objects.all().order_by('date_joined')
+    serializer_class = PasswordChangeSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_serializer(self, *args, **kwargs):
+        serializer_class = self.get_serializer_class()
+        kwargs.setdefault('context', self.get_serializer_context())
+        kwargs.update({'user': self.request.user})
+        return serializer_class(*args, **kwargs)
