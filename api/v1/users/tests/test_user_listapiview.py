@@ -21,7 +21,7 @@ class UserListAPIViewTest(TestCase):
                                      password='testpassw0rd123')
 
     def test_success_access_and_get_users(self):
-        # エンドポイントに対してアクセスする事と10件の情報を取得する事が出来る
+        # APIViewに対してアクセスする事と10件の情報を取得する事が出来る
         response = self.client.get(reverse('api:v1:users:list'))
 
         # ステータスコードの確認

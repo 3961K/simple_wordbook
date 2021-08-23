@@ -18,7 +18,7 @@ class UserSerializerTest(TestCase):
                 password='testpassw0rd123',
                 icon='user_serializer_{}.png'.format(i))
 
-    def test_valid(self):
+    def test_success_get_list(self):
         users = User.objects.all()
         serializer = UserSerializer(instance=users, many=True)
         # 予想したJSON形式の文字列をシリアライザから取得できる
