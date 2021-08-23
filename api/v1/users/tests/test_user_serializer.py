@@ -1,13 +1,13 @@
 from django.contrib.auth import get_user_model
-from django.test import TestCase
 from json import dumps as json_dump
+from rest_framework.test import APITestCase
 
 from ..serializers import UserSerializer
 
 User = get_user_model()
 
 
-class UserSerializerTest(TestCase):
+class UserSerializerTest(APITestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
