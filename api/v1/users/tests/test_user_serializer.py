@@ -1,13 +1,13 @@
 from django.contrib.auth import get_user_model
-from django.test import TestCase
 from json import dumps as json_dump
+from rest_framework.test import APITestCase
 
 from ..serializers import UserSerializer
 
 User = get_user_model()
 
 
-class UserSerializerTest(TestCase):
+class UserSerializerTest(APITestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -18,7 +18,7 @@ class UserSerializerTest(TestCase):
                 password='testpassw0rd123',
                 icon='user_serializer_{}.png'.format(i))
 
-    def test_valid(self):
+    def test_success_get_list(self):
         users = User.objects.all()
         serializer = UserSerializer(instance=users, many=True)
         # 予想したJSON形式の文字列をシリアライザから取得できる
