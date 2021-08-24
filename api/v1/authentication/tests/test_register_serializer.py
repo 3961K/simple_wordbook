@@ -1,12 +1,12 @@
 from django.contrib.auth import get_user_model
-from django.test import TestCase
+from rest_framework.test import APITestCase
 
 from ..serializers import RegisterSerializer
 
 User = get_user_model()
 
 
-class RegisterSerializerTest(TestCase):
+class RegisterSerializerTest(APITestCase):
 
     def test_valid(self):
         # 正しいユーザ情報は登録情報として妥当

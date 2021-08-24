@@ -2,12 +2,12 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.db.utils import IntegrityError
-from django.test import TestCase
+from rest_framework.test import APITestCase
 
 User = get_user_model()
 
 
-class UserTest(TestCase):
+class UserTest(APITestCase):
     def test_success_create_user1(self):
         # 必須フィールドのみでユーザを作成出来る
         User.objects.create_user(username='create_user1',

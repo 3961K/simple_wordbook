@@ -1,11 +1,11 @@
 from django.contrib.auth import get_user_model
-from django.test import TestCase
 from django.urls import reverse
+from rest_framework.test import APITestCase, APIClient
 
 User = get_user_model()
 
 
-class RegisterAPIViewTest(TestCase):
+class RegisterAPIViewTest(APITestCase):
     def test_success_register(self):
         # 正しいユーザ情報によって認証を行う事が出来る
         params = {
@@ -15,9 +15,10 @@ class RegisterAPIViewTest(TestCase):
             'password2': 'testpassw0rd123',
         }
 
-        response = self.client.post(reverse('api:v1:authentication:register'),
-                                    params,
-                                    format='json')
+        client = APIClient()
+        response = client.post(reverse('api:v1:authentication:register'),
+                               params,
+                               format='json')
         # ステータスコードの確認
         self.assertEqual(response.status_code, 201)
         # JSONレスポンスの確認
@@ -52,10 +53,11 @@ class RegisterAPIViewTest(TestCase):
             },
         ]
 
+        client = APIClient()
         for index, params in enumerate(params_list):
-            response = self.client.post(reverse('api:v1:authentication:register'),
-                                        params,
-                                        format='json')
+            response = client.post(reverse('api:v1:authentication:register'),
+                                   params,
+                                   format='json')
             # ステータスコードの確認
             self.assertEqual(response.status_code, 400)
 
@@ -94,10 +96,11 @@ class RegisterAPIViewTest(TestCase):
             }
         ]
 
+        client = APIClient()
         for index, params in enumerate(params_list):
-            response = self.client.post(reverse('api:v1:authentication:register'),
-                                        params,
-                                        format='json')
+            response = client.post(reverse('api:v1:authentication:register'),
+                                   params,
+                                   format='json')
             # ステータスコードの確認
             self.assertEqual(response.status_code, 400)
 

@@ -1,11 +1,11 @@
 from django.contrib.auth import get_user_model
-from django.test import TestCase
 from django.urls import reverse
+from rest_framework.test import APITestCase, APIClient
 
 User = get_user_model()
 
 
-class LogoutAPIViewTest(TestCase):
+class LogoutAPIViewTest(APITestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -16,8 +16,9 @@ class LogoutAPIViewTest(TestCase):
     def test_success_logout(self):
         # ログアウト状態にする事が出来る
         user = User.objects.get(username='logout_apiview')
-        self.client.force_login(user)
-        response = self.client.post(reverse('api:v1:authentication:logout'))
+        client = APIClient()
+        client.force_login(user)
+        response = client.post(reverse('api:v1:authentication:logout'))
         # ステータスコードの確認
         self.assertEqual(response.status_code, 200)
         # JSONレスポンスの確認
