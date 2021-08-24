@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'api.v1',
     'api.v1.authentication',
     'api.v1.users',
+    'api.v1.cards',
 ]
 
 MIDDLEWARE = [
