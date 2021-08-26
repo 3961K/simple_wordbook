@@ -53,13 +53,18 @@ class CardCreateSerializerTest(APITestCase):
         user = User.objects.get(username='card_serializer')
         wrong_params_list = [
             {
-                'word': 'A' * 101,
+                'word': '',
                 'answer': 'valid_and_success_create',
                 'is_hidden': True,
             },
             {
                 'word': 'valid_and_success_create',
-                'answer': 'A' * 201,
+                'answer': '',
+                'is_hidden': True,
+            },
+            {
+                'word': 'A' * 101,
+                'answer': 'valid_and_success_create',
                 'is_hidden': True,
             },
             {
