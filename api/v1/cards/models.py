@@ -2,6 +2,8 @@ from django.contrib.auth import get_user_model
 from django.db import models
 import uuid
 
+from ..wordbooks.models import Wordbook
+
 User = get_user_model()
 
 
@@ -14,6 +16,8 @@ class Card(models.Model):
     author = models.ForeignKey(User,
                                on_delete=models.CASCADE,
                                related_name='cards')
+    wordbooks = models.ManyToManyField(Wordbook,
+                                       related_name='cards')
 
     class Meta:
         ordering = ['-create_date']
