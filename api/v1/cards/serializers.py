@@ -24,6 +24,44 @@ class CardSerializer(serializers.ModelSerializer):
         }
 
 
+class CardRetrieveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Card
+        fields = ['word', 'answer', 'is_hidden', 'id', 'create_date']
+        extra_kwargs = {
+            'word': {
+                'read_only': True
+            },
+            'answer': {
+                'read_only': True
+            },
+            'is_hidden': {
+                'read_only': True
+            },
+            'id': {
+                'read_only': True
+            },
+            'create_date': {
+                'read_only': True
+            }
+        }
+
+
+class CardUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Card
+        fields = ['word', 'answer', 'is_hidden', 'id', 'create_date']
+
+        extra_kwargs = {
+            'id': {
+                'read_only': True
+            },
+            'create_date': {
+                'read_only': True
+            }
+        }
+
+
 class CardCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Card
