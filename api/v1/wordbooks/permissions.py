@@ -1,6 +1,18 @@
 from rest_framework.permissions import BasePermission
 
 
+class IsAuthorReadOnly(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if not obj.is_hidden:
+            return True
+
+        user = request.user
+        if obj.author.id == user.id:
+            return True
+
+        return False
+
+
 class IsNotAuthorReadPublicOnly(BasePermission):
     def __init__(self, wordbook=None):
         super().__init__()
