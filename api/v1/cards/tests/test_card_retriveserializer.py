@@ -25,7 +25,7 @@ class CardRetrieveSerializerTest(APITestCase):
         )
 
     def test_1_success_retrive(self):
-        # シリアライザを介して指定したカードオブジェクトを取得する事が出来る
+        # シリアライザを介して指定したシリアライズされたカードのデータを取得する事が出来る
         card = Card.objects.get(word='card_retrieve_serializer')
         serializer = CardRetrieveSerializer(instance=card)
         # 取得したデータの内容を比較する (項目名によって検査する)
