@@ -10,6 +10,8 @@ from .permissions import IsSelfOrReadOnly
 from .serializers import UserSerializer, UserPrivateSerializer, PasswordChangeSerializer
 from ..cards.serializers import CardSerializer
 from ..cards.views import CardListFilter
+from ..wordbooks.serializers import WordbookSerializer
+from ..wordbooks.views import WordbookListFilter
 
 User = get_user_model()
 
@@ -95,8 +97,8 @@ class UserCardListAPIView(ListAPIView):
 
         Notes
         -----
-        ユーザ自身がアクセスしてきた場合は非公開カードも返し,ユーザ自身でない場合はカード群の
-        含まれる公開カードのみが返される
+        ユーザ自身がアクセスしてきた場合は非公開カードも返し,ユーザ自身でない場合は公開カード
+        のみが返される
         """
         # URLで指定したユーザを取得
         user = self.get_user()
@@ -105,6 +107,64 @@ class UserCardListAPIView(ListAPIView):
         queryset = user.cards.filter(is_hidden=False).all()
         if user.id == self.request.user.id:
             queryset = user.cards.all()
+
+        if isinstance(queryset, QuerySet):
+            queryset = queryset.all()
+
+        return queryset
+
+
+class UserWordbookListAPIView(ListAPIView):
+    lookup_field = 'username'
+    queryset = User.objects.all().prefetch_related('wordbooks')
+    serializer_class = WordbookSerializer
+    filter_class = WordbookListFilter
+
+    def get_user(self):
+        """
+        URLで指定したユーザを取得する
+
+        Notes
+        -----
+        get_objectは単語帳を取り扱うため,識別子で指定したユーザを取得するための関数を用意した
+        """
+        # URLに含まれているユーザ名からユーザを取得する
+        queryset = self.queryset
+        if isinstance(queryset, QuerySet):
+            queryset = queryset.all()
+
+        lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
+        assert lookup_url_kwarg in self.kwargs, (
+            'Expected view %s to be called with a URL keyword argument '
+            'named "%s". Fix your URL conf, or set the `.lookup_field` '
+            'attribute on the view correctly.' %
+            (self.__class__.__name__, lookup_url_kwarg)
+        )
+
+        filter_kwargs = {self.lookup_field: self.kwargs[lookup_url_kwarg]}
+        user = get_object_or_404(queryset, **filter_kwargs)
+
+        self.check_object_permissions(self.request, user)
+
+        return user
+
+    def get_queryset(self):
+        """
+        URLに含まれているユーザ名からユーザを取得した後に,そのユーザが作成した単語帳群を
+        アクセスしてきたユーザに応じてquerysetとして返す様にオーバーライドしたget_queryset
+
+        Notes
+        -----
+        ユーザ自身がアクセスしてきた場合は非公開単語帳も返し,ユーザ自身でない場合は公開単語帳
+        のみが返される
+        """
+        # URLで指定したユーザを取得
+        user = self.get_user()
+
+        # アクセスしてきたユーザに応じて返す単語帳を変更している
+        queryset = user.wordbooks.filter(is_hidden=False).all()
+        if user.id == self.request.user.id:
+            queryset = user.wordbooks.all()
 
         if isinstance(queryset, QuerySet):
             queryset = queryset.all()
