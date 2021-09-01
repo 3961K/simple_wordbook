@@ -26,6 +26,25 @@ class WordbookListCreateAPIView(ListCreateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     filter_class = WordbookListFilter
 
+    def get_queryset(self):
+        assert self.queryset is not None, (
+            "'%s' should either include a `queryset` attribute, "
+            "or override the `get_queryset()` method."
+            % self.__class__.__name__
+        )
+
+        queryset = self.queryset
+
+        # アクセスしてきたユーザが認証されている場合は作成した非公開単語帳を追加する
+        user = self.request.user
+        if user.is_authenticated:
+            queryset |= Wordbook.objects.filter(author_id=user.id, is_hidden=True)
+
+        if isinstance(queryset, QuerySet):
+            # Ensure queryset is re-evaluated on each request.
+            queryset = queryset.all()
+        return queryset
+
     def get_serializer_class(self):
         http_method = self.request.method
         if self.request.user.is_authenticated and http_method == 'POST':
