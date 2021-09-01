@@ -103,9 +103,6 @@ class WordbookCreateSerializer(serializers.ModelSerializer):
         model = Wordbook
         fields = ['wordbook_name', 'is_hidden', 'id', 'create_date']
         extra_kwargs = {
-            'is_hidden': {
-                'write_only': True
-            },
             'id': {
                 'read_only': True
             },

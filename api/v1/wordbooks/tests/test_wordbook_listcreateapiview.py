@@ -18,7 +18,7 @@ class WordbookListCreateAPIView(APITestCase):
                     password='testpassw0rd123')
         user.save()
 
-        for i in range(1, 13):
+        for i in range(1, 23):
             is_hidden = False if i <= 11 else True
             Wordbook.objects.create(
                 wordbook_name='wordbook_listcreateapiview_{}'.format(i),
@@ -34,6 +34,7 @@ class WordbookListCreateAPIView(APITestCase):
         self.assertEqual(response.status_code, 200)
         # 取得した件数の検証
         json_response = json_loads(response.content)
+        self.assertEqual(json_response['count'], 11)
         self.assertEqual(len(json_response['results']), 10)
 
     def test_2_success_get_list_with_q(self):
@@ -46,9 +47,23 @@ class WordbookListCreateAPIView(APITestCase):
         self.assertEqual(response.status_code, 200)
         # 取得した件数の検証
         json_response = json_loads(response.content)
+        self.assertEqual(json_response['count'], 3)
         self.assertEqual(len(json_response['results']), 3)
 
-    def test_3_fail_get_list_with_q(self):
+    # 認証されている状態でアクセスした場合は自身が作成した非公開の単語帳も取得する事が出来る
+    def test_3_success_get_list_with_authenticated(self):
+        user = User.objects.get(username='wordbook_listcreateapiview')
+        client = APIClient()
+        client.force_login(user)
+        response = client.get(reverse('api:v1:wordbooks:list'))
+        # HTTPステータスコードの検証
+        self.assertEqual(response.status_code, 200)
+        # 取得した件数の検証
+        json_response = json_loads(response.content)
+        self.assertEqual(json_response['count'], 22)
+        self.assertEqual(len(json_response['results']), 10)
+
+    def test_4_fail_get_list_with_q(self):
         # qパラメータで指定した単語を含む公開状態の単語帳が無い場合は何も取得できない (0件)
         client = APIClient()
         response = client.get(''.join([reverse('api:v1:wordbooks:list'),
@@ -60,7 +75,7 @@ class WordbookListCreateAPIView(APITestCase):
         json_response = json_loads(response.content)
         self.assertEqual(len(json_response['results']), 0)
 
-    def test_4_fail_access_over_page(self):
+    def test_5_fail_access_over_page(self):
         # ページネーションが正常に機能し,存在しないページにアクセスすると404が返ってくる
         client = APIClient()
         response = client.get(''.join([reverse('api:v1:cards:list'),
@@ -72,7 +87,7 @@ class WordbookListCreateAPIView(APITestCase):
         expected_json = {'detail': '不正なページです。'}
         self.assertJSONEqual(response.content, expected_json)
 
-    def test_5_success_create(self):
+    def test_6_success_create(self):
         # 認証している状態で適切な値を送信する事で単語帳を新規作成する事が出来る
         params = {
             'wordbook_name': 'success_create',
@@ -91,7 +106,7 @@ class WordbookListCreateAPIView(APITestCase):
         json_response = json_loads(response.content)
         self.assertEqual(json_response['wordbook_name'], 'success_create')
 
-    def test_6_fail_create_unauthenticated(self):
+    def test_7_fail_create_unauthenticated(self):
         # 認証されていなければ適切な値でも単語帳を新規作成する事は出来ない
         params = {
             'wordbook_name': 'fail_create',
@@ -105,7 +120,7 @@ class WordbookListCreateAPIView(APITestCase):
         # HTTPレスポンスの検証
         self.assertEqual(response.status_code, 403)
 
-    def test_7_fail_create_wrong_params(self):
+    def test_8_fail_create_wrong_params(self):
         # 認証されていても不適切な値の場合カードを新規作成する事は出来ない
         wrong_params_list = [
             {
