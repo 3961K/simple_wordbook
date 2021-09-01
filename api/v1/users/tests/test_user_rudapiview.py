@@ -25,6 +25,16 @@ class UserRetrieveUpdateDestroyAPIViewTest(APITestCase):
                                  email='user_rudapiviewA@test.com',
                                  password='testpassw0rd123')
 
+        User.objects.create_user(username='user_rudapiview_super',
+                                 email='user_rudapiview_super@test.com',
+                                 is_superuser=True,
+                                 password='testpassw0rd123')
+
+        User.objects.create_user(username='user_rudapiview_staff',
+                                 email='user_rudapiview_staff@test.com',
+                                 is_staff=True,
+                                 password='testpassw0rd123')
+
     def test_1_success_access_and_retrive(self):
         # APIViewに対してアクセスする事と指定したユーザの情報を取得する事が出来る
         client = APIClient()
@@ -38,7 +48,7 @@ class UserRetrieveUpdateDestroyAPIViewTest(APITestCase):
                          "icon": "http://testserver/images/default.png"}
         self.assertJSONEqual(response.content, expected_json)
 
-    def test_2_fail_access(self):
+    def test_2_fail_access_not_exist(self):
         # 存在しないユーザ名を指定してAPIViewに対してアクセスすると404が返される
         client = APIClient()
         response = client.get(reverse('api:v1:users:detail',
@@ -50,8 +60,24 @@ class UserRetrieveUpdateDestroyAPIViewTest(APITestCase):
         expected_json = {"detail": "見つかりませんでした。"}
         self.assertJSONEqual(response.content, expected_json)
 
-    def test_3_success_update(self):
-        # APIViewに対して適切な入力値によって更新する事が出来る
+    def test_3_fail_access_superuser_or_staffuser(self):
+        # superuser権限またはstaff権限を持つユーザの詳細情報を取得する事は出来ない
+        client = APIClient()
+
+        # ステータスコードの確認 (superuser権限を持つユーザ)
+        response = client.get(reverse('api:v1:users:detail',
+                                      kwargs={'username': 'user_rudapiview_super'}))
+
+        self.assertEqual(response.status_code, 404)
+
+        # ステータスコードの確認 (staff権限を持つユーザ)
+        response = client.get(reverse('api:v1:users:detail',
+                                      kwargs={'username': 'user_rudapiview_staff'}))
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_4_success_update(self):
+        # APIViewに対して適切な入力値を送信する事によってユーザ情報を更新する事が出来る
         image = BytesIO()
         Image.new('RGB', (512, 512)).save(image, 'PNG')
         image.seek(0)
@@ -67,7 +93,7 @@ class UserRetrieveUpdateDestroyAPIViewTest(APITestCase):
 
         user = User.objects.get(username='user_rudapiview')
 
-    def test_4_success_delete(self):
+    def test_5_success_delete(self):
         # APIViewに対してログインしているユーザと同じユーザ名のユーザを削除する事が出来る
         user = User.objects.get(username='user_rudapiview')
         client = APIClient()

@@ -2,8 +2,8 @@ from django.contrib.auth import get_user_model
 from django.db.models.query import QuerySet
 from django_filters import rest_framework as filters
 from django.shortcuts import get_object_or_404
-from rest_framework.mixins import UpdateModelMixin
-from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.mixins import RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin
+from rest_framework.generics import GenericAPIView, ListAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from .permissions import IsSelfOrReadOnly
@@ -25,18 +25,33 @@ class UserListFilter(filters.FilterSet):
 
 
 class UserListAPIView(ListAPIView):
-    queryset = User.objects.all().order_by('date_joined')
+    queryset = User.objects.filter(is_superuser=False, is_staff=False).all().order_by('date_joined')
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
     filter_class = UserListFilter
 
 
-class UserRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+class RetrieveDeletePartialUpdateAPIView(RetrieveModelMixin,
+                                         UpdateModelMixin,
+                                         DestroyModelMixin,
+                                         GenericAPIView):
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+
+class UserRetrieveUpdateDestroyAPIView(RetrieveDeletePartialUpdateAPIView):
     """
     指定したユーザの詳細情報の取得,情報の更新,削除を行うAPIView
     """
     lookup_field = 'username'
-    queryset = User.objects.all().order_by('date_joined')
+    queryset = User.objects.filter(is_superuser=False, is_staff=False).all().order_by('date_joined')
     serializer_class = UserSerializer
     permission_classes = [IsSelfOrReadOnly]
 
