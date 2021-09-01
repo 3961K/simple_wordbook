@@ -19,7 +19,9 @@ class LoginSerializer(serializers.Serializer):
                                 username=username,
                                 password=password)
 
-            if user is None or not user.is_active:
+            # root権限を持つユーザ,staff権限を持つユーザ,アクティブでないユーザはログイン
+            # 出来ない様にする
+            if user is None or user.is_staff or user.is_superuser or not user.is_active:
                 raise serializers.ValidationError('ログインが失敗しました')
 
             data['user'] = user
