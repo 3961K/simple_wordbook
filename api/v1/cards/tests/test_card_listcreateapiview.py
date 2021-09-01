@@ -18,7 +18,7 @@ class CardListCreateAPIView(APITestCase):
                     password='testpassw0rd123')
         user.save()
 
-        for i in range(1, 13):
+        for i in range(1, 23):
             is_hidden = False if i <= 11 else True
             Card.objects.create(
                 word='card_listcreateapiview_{}'.format(i),
@@ -35,6 +35,7 @@ class CardListCreateAPIView(APITestCase):
         self.assertEqual(response.status_code, 200)
         # 取得した件数の検証
         json_response = json_loads(response.content)
+        self.assertEqual(json_response['count'], 11)
         self.assertEqual(len(json_response['results']), 10)
 
     def test_2_success_get_list_with_q(self):
@@ -47,33 +48,47 @@ class CardListCreateAPIView(APITestCase):
         self.assertEqual(response.status_code, 200)
         # 取得した件数の検証
         json_response = json_loads(response.content)
+        self.assertEqual(json_response['count'], 3)
         self.assertEqual(len(json_response['results']), 3)
 
-    def test_3_fail_get_list_with_q(self):
+    def test_3_success_get_list_with_authenticated(self):
+        # 認証された状態でアクセスした場合,自分が作成した非公開カードも取得する事が出来る
+        user = User.objects.get(username='card_listcreateapiview')
+        client = APIClient()
+        client.force_login(user)
+        response = client.get(reverse('api:v1:cards:list'))
+        # HTTPステータスコードの検証
+        self.assertEqual(response.status_code, 200)
+        # 取得した件数の検証
+        json_response = json_loads(response.content)
+        self.assertEqual(json_response['count'], 22)
+        self.assertEqual(len(json_response['results']), 10)
+
+    def test_4_fail_get_list_with_q(self):
         # qパラメータで指定した単語を含む公開状態のカードが無い場合は何も取得できない (0件)
         client = APIClient()
         response = client.get(''.join([reverse('api:v1:cards:list'),
                                        '?',
-                                       urlencode(dict(q='fail'))]))
+                                      urlencode(dict(q='fail'))]))
         # HTTPステータスコードの検証
         self.assertEqual(response.status_code, 200)
         # 取得した件数の検証
         json_response = json_loads(response.content)
         self.assertEqual(len(json_response['results']), 0)
 
-    def test_4_fail_access_over_page(self):
+    def test_5_fail_access_over_page(self):
         # ページネーションが正常に機能し,存在しないページにアクセスすると404が返ってくる
         client = APIClient()
         response = client.get(''.join([reverse('api:v1:cards:list'),
                                        '?',
-                                       urlencode(dict(page='3'))]))
+                                      urlencode(dict(page='3'))]))
         # HTTPステータスコードの検証
         self.assertEqual(response.status_code, 404)
         # JSONレスポンスの確認
         expected_json = {'detail': '不正なページです。'}
         self.assertJSONEqual(response.content, expected_json)
 
-    def test_5_success_create(self):
+    def test_6_success_create(self):
         # 認証している状態で適切な値を送信する事でカードを新規作成する事が出来る
         params = {
             'word': 'success_create',
@@ -94,7 +109,7 @@ class CardListCreateAPIView(APITestCase):
         self.assertEqual(json_response['word'], 'success_create')
         self.assertEqual(json_response['answer'], 'success_create')
 
-    def test_6_fail_create_unauthenticated(self):
+    def test_7_fail_create_unauthenticated(self):
         # 認証されていなければ適切な値でもカードを新規作成する事は出来ない
         params = {
             'word': 'fail_create',
@@ -109,7 +124,7 @@ class CardListCreateAPIView(APITestCase):
         # HTTPレスポンスの検証
         self.assertEqual(response.status_code, 403)
 
-    def test_7_fail_create_wrong_params(self):
+    def test_8_fail_create_wrong_params(self):
         # 認証されていても不適切な値の場合カードを新規作成する事は出来ない
         wrong_params_list = [
             {

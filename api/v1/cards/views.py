@@ -1,3 +1,4 @@
+from django.db.models.query import QuerySet
 from django_filters import rest_framework as filters
 from django.shortcuts import get_object_or_404
 from rest_framework.mixins import RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin
@@ -23,6 +24,25 @@ class CardListCreateAPIView(ListCreateAPIView):
     serializer_class = CardSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     filter_class = CardListFilter
+
+    def get_queryset(self):
+        assert self.queryset is not None, (
+            "'%s' should either include a `queryset` attribute, "
+            "or override the `get_queryset()` method."
+            % self.__class__.__name__
+        )
+
+        queryset = self.queryset
+
+        # アクセスしてきたユーザが認証されている場合は作成した非公開カードを追加する
+        user = self.request.user
+        if user.is_authenticated:
+            queryset |= Card.objects.filter(author_id=user.id, is_hidden=True)
+
+        if isinstance(queryset, QuerySet):
+            # Ensure queryset is re-evaluated on each request.
+            queryset = queryset.all()
+        return queryset
 
     def get_serializer_class(self):
         http_method = self.request.method
