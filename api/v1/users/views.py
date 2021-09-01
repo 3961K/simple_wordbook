@@ -4,7 +4,7 @@ from django_filters import rest_framework as filters
 from django.shortcuts import get_object_or_404
 from rest_framework.mixins import RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin
 from rest_framework.generics import GenericAPIView, ListAPIView
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny
 
 from .permissions import IsSelfOrReadOnly
 from .serializers import UserSerializer, UserPrivateSerializer, PasswordChangeSerializer
@@ -196,10 +196,16 @@ class PasswordChangeAPIView(OnlyPartialAPIView):
     lookup_field = 'username'
     queryset = User.objects.all().order_by('date_joined')
     serializer_class = PasswordChangeSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsSelfOrReadOnly]
 
     def get_serializer(self, *args, **kwargs):
         serializer_class = self.get_serializer_class()
         kwargs.setdefault('context', self.get_serializer_context())
         kwargs.update({'user': self.request.user})
         return serializer_class(*args, **kwargs)
+
+    def get_permissions(self):
+        # パーミッションクラスにアクセスしたURLに含まれるユーザ名を渡す
+        lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
+        return [permission(username=(self.kwargs[lookup_url_kwarg]))
+                for permission in self.permission_classes]

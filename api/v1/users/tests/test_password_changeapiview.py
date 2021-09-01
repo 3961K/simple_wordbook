@@ -13,6 +13,10 @@ class PasswordChangeAPIViewTest(APITestCase):
                                  email='password_changeapiview@test.com',
                                  password='testpassw0rd123')
 
+        User.objects.create_user(username='password_changeapiview2',
+                                 email='password_changeapiview2@test.com',
+                                 password='testpassw0rd123')
+
     def test_1_success_update_password(self):
         # 適切なパラメータによってユーザのパスワードを更新する事が出来る
         params = {
@@ -34,7 +38,7 @@ class PasswordChangeAPIViewTest(APITestCase):
         updated_user = User.objects.get(username='password_changeapiview')
         self.assertTrue(updated_user.check_password('updatetestpassw0rd123'))
 
-    def test_2_fail_update_password(self):
+    def test_2_fail_update_password_without_authenticated(self):
         # 正しいパラメータであってもログインしていなければユーザのパスワードを更新する事が出来ない
         params = {
             'old_password': 'testpassw0rd123',
@@ -50,7 +54,25 @@ class PasswordChangeAPIViewTest(APITestCase):
         # HTTPレスポンスステータスコードの検証
         self.assertEqual(response.status_code, 403)
 
-    def test_3_fail_uppdate_password(self):
+    def test_3_fail_update_password_otheruser(self):
+        # 正しいパラメータであってもそのユーザとしてログインしていなければ対象ユーザのパスワードを更新する事が出来ない
+        params = {
+            'old_password': 'testpassw0rd123',
+            'password': 'updatetestpassw0rd123',
+            'password2': 'updatetestpassw0rd123',
+        }
+
+        user = User.objects.get(username='password_changeapiview2')
+        client = APIClient()
+        client.force_login(user)
+        response = client.patch(reverse('api:v1:users:change_password',
+                                        kwargs={'username': 'password_changeapiview'}),
+                                params,
+                                format='json')
+        # HTTPレスポンスステータスコードの検証
+        self.assertEqual(response.status_code, 403)
+
+    def test_4_fail_uppdate_password_wrong_params(self):
         # 誤ったパラメータまたは欠けたパラメータが存在する場合はユーザのパスワードを更新する事は出来ない
         wrong_params_list = [
             {
