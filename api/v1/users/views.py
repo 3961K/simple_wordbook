@@ -25,7 +25,7 @@ class UserListFilter(filters.FilterSet):
 
 
 class UserListAPIView(ListAPIView):
-    queryset = User.objects.all().order_by('date_joined')
+    queryset = User.objects.filter(is_superuser=False, is_staff=False).all().order_by('date_joined')
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
     filter_class = UserListFilter

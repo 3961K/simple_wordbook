@@ -20,7 +20,17 @@ class UserListAPIViewTest(APITestCase):
                                      email='user_listapiview_B{}@test.com'.format(i),
                                      password='testpassw0rd123')
 
-    def test_success_access_and_get_users(self):
+        User.objects.create_user(username='user_listapiview_super',
+                                 email='user_listapiview_super@test.com',
+                                 is_superuser=True,
+                                 password='testpassw0rd123')
+
+        User.objects.create_user(username='user_listapiview_staff',
+                                 email='user_listapiview_staff@test.com',
+                                 is_staff=True,
+                                 password='testpassw0rd123')
+
+    def test_1_success_access_and_get_users(self):
         # APIViewに対してアクセスする事と10件の情報を取得する事が出来る
         client = APIClient()
         response = client.get(reverse('api:v1:users:list'))
@@ -30,8 +40,9 @@ class UserListAPIViewTest(APITestCase):
         # JSONレスポンスの確認 (取得件数を表すcountの値の比較によって確認を行う)
         response_json = json_loads(response.content.decode('utf-8'))
         self.assertEqual(response_json['count'], 22)
+        self.assertEqual(len(response_json['results']), 10)
 
-    def test_success_access_max_page(self):
+    def test_2_success_access_max_page(self):
         # ページネーションが正常に機能し,最後のページの場合next=nullとなっている
         client = APIClient()
         response = client.get(''.join([reverse('api:v1:users:list'),
@@ -44,7 +55,7 @@ class UserListAPIViewTest(APITestCase):
         response_json = json_loads(response.content.decode('utf-8'))
         self.assertIsNone(response_json['next'])
 
-    def test_success_get_only_satisfy_requirment(self):
+    def test_3_success_get_only_satisfy_requirment(self):
         # qパラメータで指定した条件に合致する情報のみ取得する事可能で,
         # ページネーションも正常に機能している
         client = APIClient()
@@ -58,7 +69,7 @@ class UserListAPIViewTest(APITestCase):
         response_json = json_loads(response.content.decode('utf-8'))
         self.assertEqual(response_json['count'], 11)
 
-    def test_fail_access_over_page(self):
+    def test_4_fail_access_over_page(self):
         # ページネーションが正常に機能し,存在しないページにアクセスすると404が返ってくる
         client = APIClient()
         response = client.get(''.join([reverse('api:v1:users:list'),
@@ -71,7 +82,7 @@ class UserListAPIViewTest(APITestCase):
         expected_json = {'detail': '不正なページです。'}
         self.assertJSONEqual(response.content, expected_json)
 
-    def test_fail_get_no_satisfy_requirment(self):
+    def test_5_fail_get_no_satisfy_requirment(self):
         # 条件に合致するデータが無い時,何も取得できない
         client = APIClient()
         response = client.get(''.join([reverse('api:v1:users:list'),
