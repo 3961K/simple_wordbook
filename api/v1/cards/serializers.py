@@ -25,9 +25,11 @@ class CardSerializer(serializers.ModelSerializer):
 
 
 class CardRetrieveSerializer(serializers.ModelSerializer):
+    author_name = serializers.SerializerMethodField('get_author_name')
+
     class Meta:
         model = Card
-        fields = ['word', 'answer', 'is_hidden', 'id', 'create_date']
+        fields = ['word', 'answer', 'is_hidden', 'id', 'create_date', 'author_name']
         extra_kwargs = {
             'word': {
                 'read_only': True
@@ -43,8 +45,16 @@ class CardRetrieveSerializer(serializers.ModelSerializer):
             },
             'create_date': {
                 'read_only': True
+            },
+            'author_name': {
+                'read_only': True
             }
         }
+
+    def get_author_name(self, card):
+        author_id = card.author.id
+        author = User.objects.get(id=author_id)
+        return author.username
 
 
 class CardUpdateSerializer(serializers.ModelSerializer):

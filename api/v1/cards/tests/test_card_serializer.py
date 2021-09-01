@@ -29,3 +29,7 @@ class CardSerializerTest(APITestCase):
         serializer = CardSerializer(instance=cards, many=True)
         # 予想した件数を取得する事が出来る
         self.assertEqual(len(serializer.data), 5)
+        # 予想したフィールドの値を取得する事が出来る
+        expected_fields = ['id', 'word', 'answer']
+        for expected_field, serializer_field in zip(expected_fields, serializer.data[0].keys()):
+            self.assertEqual(expected_field, serializer_field)

@@ -29,6 +29,6 @@ class CardRetrieveSerializerTest(APITestCase):
         card = Card.objects.get(word='card_retrieve_serializer')
         serializer = CardRetrieveSerializer(instance=card)
         # 取得したデータの内容を比較する (項目名によって検査する)
-        expected_fields = ['word', 'answer', 'is_hidden', 'id', 'create_date']
+        expected_fields = ['word', 'answer', 'is_hidden', 'id', 'create_date', 'author_name']
         for expected_field, serializer_field in zip(expected_fields, serializer.data.keys()):
             self.assertEqual(expected_field, serializer_field)

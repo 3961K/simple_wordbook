@@ -52,9 +52,10 @@ class CardRetrieveDeletePartialUpdateAPIView(APITestCase):
         self.assertEqual(response.status_code, 200)
         # HTTPレスポンスの検証
         json_response = json_loads(response.content)
-        self.assertEqual(len(json_response.keys()), 5)
+        self.assertEqual(len(json_response.keys()), 6)
         self.assertEqual(json_response['word'], 'card_rdpuapiview')
         self.assertEqual(json_response['answer'], 'card_rdpuapiview')
+        self.assertEqual(json_response['author_name'], 'card_rdpuapiview')
         self.assertFalse(json_response['is_hidden'])
         self.assertIsNotNone(json_response['id'])
         self.assertIsNotNone(json_response['create_date'])
@@ -82,9 +83,10 @@ class CardRetrieveDeletePartialUpdateAPIView(APITestCase):
         self.assertEqual(response.status_code, 200)
         # HTTPレスポンスの検証
         json_response = json_loads(response.content)
-        self.assertEqual(len(json_response.keys()), 5)
+        self.assertEqual(len(json_response.keys()), 6)
         self.assertEqual(json_response['word'], 'card_rdpuapiview2')
         self.assertEqual(json_response['answer'], 'card_rdpuapiview2')
+        self.assertEqual(json_response['author_name'], 'card_rdpuapiview2')
         self.assertTrue(json_response['is_hidden'])
         self.assertIsNotNone(json_response['id'])
         self.assertIsNotNone(json_response['create_date'])
