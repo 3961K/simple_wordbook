@@ -1,0 +1,60 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block extra_header %}
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js" defer></script>
+    <script src="https://unpkg.com/vue-cookies@1.7.4/vue-cookies.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{% static 'authentication_front/register.js' %}" defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'authentication_front/register.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div id="register-form">
+        <div id="register-header">
+            Register
+        </div>
+
+        <div id="app">
+            <form action="/api/v1/authentication/register/" method="POST" enctype="multipart/form-data" class="form-horizontal" novalidate="" v-on:submit.prevent="register">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fas fa-user"></i></div>
+                        </div>
+                        <input name="username" class="form-control" type="text" value="" placeholder="username" v-model="username" required>
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fas fa-envelope"></i></div>
+                        </div>
+                        <input name="email" class="form-control" type="email" value="" placeholder="email" v-model="email" required>
+                    </div>
+    
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fas fa-key"></i></div>
+                        </div>
+                        <input name="password" class="form-control" type="password" value="" placeholder="password" v-model="password" required>
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fas fa-key"></i></div>
+                        </div>
+                        <input name="password2" class="form-control" type="password" value="" placeholder="password(確認用)" v-model="password2" required>
+                    </div>
+
+                    <div class="form-row text-center">
+                        <div class="col-12">
+                            <input class="btn btn-primary" type="submit" value="ユーザ登録"/>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
