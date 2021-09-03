@@ -1,0 +1,19 @@
+#register-form {
+    width: 33%;
+    margin-top: 10%;
+    margin-left: auto;
+    margin-right: auto;
+    padding : 2%;
+    border : 0.5px solid #cccccc ;
+    border-radius: 1em;
+    background-color: #ffffff;
+}
+
+#register-form #register-header {
+    background:skyblue;
+    color: white;
+    text-align: center;
+    width: 100%;
+    padding: 1% 5% 1% 5%;
+    margin-bottom: 2.5%;
+}

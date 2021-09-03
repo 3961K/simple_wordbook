@@ -8,3 +8,7 @@ class LoginView(TemplateView):
 
 class LogoutView(LoginRequiredMixin, TemplateView):
     template_name = 'authentication_front/logout.html'
+
+
+class RegisterView(TemplateView):
+    template_name = 'authentication_front/register.html'
