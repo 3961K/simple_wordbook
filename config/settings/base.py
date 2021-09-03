@@ -126,3 +126,5 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
 }
+
+LOGIN_URL = 'authentication_front:login'

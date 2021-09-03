@@ -1,0 +1,15 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block extra_header %}
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js" defer></script>
+    <script src="https://unpkg.com/vue-cookies@1.7.4/vue-cookies.js" defer></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>
+    <script src="{% static 'authentication_front/logout.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+    <div id="app">
+        {% csrf_token %}
+    </div>
+{% endblock %}
