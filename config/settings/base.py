@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'api.v1.cards',
     'api.v1.wordbooks',
     'authentication_front',
+    'users_front',
 ]
 
 MIDDLEWARE = [
