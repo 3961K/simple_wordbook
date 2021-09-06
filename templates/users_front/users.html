@@ -22,7 +22,7 @@
             <ul>
                 <li v-for="(user, index) in users_per_page" v-bind:key="index">
                     <img v-bind:src="user.icon" class="user-icon">
-                    ${user.username}
+                    <a v-bind:href="get_user_page_url(user.username)">${user.username}</a>
                 </li>
             </ul>
         </div>
