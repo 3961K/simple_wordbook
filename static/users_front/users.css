@@ -17,6 +17,16 @@
     height: 50px;
 }
 
+#user-list a {
+    color: gray;
+    text-decoration: none;
+}
+
+#user-list a:hover {
+    color: lightgray;
+    text-decoration: none;
+}
+
 #pagination {
     margin-left: 47.5%;
 }
