@@ -1,0 +1,71 @@
+#user-profile {
+    margin-top: 5%;
+    margin-left: 38.5%;
+}
+
+#user-profile img.user-icon {
+    width: 100px;
+    height: 100px;
+}
+
+#menu {
+    margin: 5% 0% 10% 35%;
+}
+
+#menu ul li {
+    list-style: none;
+    float: left;
+    margin-left: 5%;
+}
+
+#menu a {
+    color: gray;
+    text-decoration: none;
+}
+
+#menu a:hover {
+    color: lightgray;
+    text-decoration: none;
+}
+
+#wordbook-search-form {
+    margin-left: 38.5%;
+}
+
+#wordbook-list {
+    width: 50%;
+    margin: 0% 25% 0% 23.5%;
+}
+
+#wordbook-list ul li {
+    list-style: none;
+    margin: 5% 0% 5% 0%;
+}
+
+#wordbook-list .wordbook {
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    border-color:black;
+    padding: 5% 5% 5% 5%;
+}
+
+#wordbook-list .wordbook:hover {
+    border-style: solid;
+    border-color:black;
+    background-color: #f1f1f1;
+    padding: 5% 5% 5% 5%;
+}
+
+#wordbook-list .wordbook .wordbook-content-type {
+    color: gray;
+    font-size: 20px;
+}
+
+#wordbook-list .wordbook .wordbook-content {
+    padding-left: 5%;
+}
+
+#pagination {
+    margin-left: 45%;
+}

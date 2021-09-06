@@ -7,3 +7,7 @@ class UsersView(TemplateView):
 
 class UserCardsView(TemplateView):
     template_name = 'users_front/user_cards.html'
+
+
+class UserWordbooksView(TemplateView):
+    template_name = 'users_front/user_wordbooks.html'
