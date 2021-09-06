@@ -1,0 +1,46 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block extra_header %}
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js" defer></script>
+    <script src="https://unpkg.com/vue-cookies@1.7.4/vue-cookies.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{% static 'users_front/users.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static 'users_front/users.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div id="app">
+        <div id="user-search-form">
+            <form class="form-inline my-2 my-lg-0" action="" method="GET" v-on:submit.prevent="get_users_per_page(1, true)">
+                <input name="q" class="form-control" type="text" value="" placeholder="ユーザ名" v-model="q">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">検索</button>
+            </form>
+        </div>
+
+        <div id="user-list">
+            <ul>
+                <li v-for="(user, index) in users_per_page" v-bind:key="index">
+                    <img v-bind:src="user.icon" class="user-icon">
+                    ${user.username}
+                </li>
+            </ul>
+        </div>
+
+        <div id="pagination">
+            <ul class="pagination">
+                <div v-if="previous_page">
+                    <li class="page-item">
+                        <span class="page-link" aria-hidden="true" v-on:click="get_users_per_page(current_page_num - 1)">&laquo;</span>
+                    </li>    
+                </div>
+
+                <div v-if="next_page">
+                    <li class="page-item">
+                        <span class="page-link" aria-hidden="true" v-on:click="get_users_per_page(current_page_num + 1)">&raquo;</span>
+                    </li>
+                </div>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
