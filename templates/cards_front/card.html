@@ -1,0 +1,34 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block extra_header %}
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js" defer></script>
+    <script src="https://unpkg.com/vue-cookies@1.7.4/vue-cookies.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{% static 'cards_front/card.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static 'cards_front/card.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div id="app">
+        <div id="card" v-on:click.prevent="change_display_status()">
+            <div v-if="display_status">
+                <span class="content-type">Word</span>
+                <br>
+                <span class="content">${word}</span>
+            </div>
+            <div v-else="display_status">
+                <span class="content-type">Answer</span>
+                <br>
+                <span class="content">${answer}</span>
+            </div>
+        </div>
+
+        <span id="author-name"><i>作成者: ${author}</i></span>
+
+        <div v-if="is_can_copy">
+            {% csrf_token %}
+            <button id="copy-button" class="btn btn-primary" v-on:click.prevent="copy()">このカードをコピー</button>
+        </div>
+    </div>
+{% endblock %}
