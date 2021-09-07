@@ -1,3 +1,5 @@
-from django.shortcuts import render
+from django.views.generic import TemplateView
 
-# Create your views here.
+
+class CardsView(TemplateView):
+    template_name = 'cards_front/cards.html'

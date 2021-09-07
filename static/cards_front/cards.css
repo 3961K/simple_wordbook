@@ -1,0 +1,51 @@
+#card-search-form {
+    margin-top: 5%;
+    margin-left: 37.5%;
+}
+
+#card-list {
+    margin: 0% 17.5% 0% 15.5%;
+}
+
+#card-list ul li {
+    list-style: none;
+    margin: 2.5% 0% 2.5% 0%;
+}
+
+#card-list a {
+    color: gray;
+    text-decoration: none;
+}
+
+#card-list a:hover {
+    color: lightgray;
+    text-decoration: none;
+}
+
+#card-list .card {
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    border-color:black;
+    padding: 5% 5% 5% 5%;
+}
+
+#card-list .card:hover {
+    border-style: solid;
+    border-color:black;
+    background-color: #f1f1f1;
+    padding: 5% 5% 5% 5%;
+}
+
+#card-list .card .card-content-type {
+    color: gray;
+    font-size: 20px;
+}
+
+#card-list .card .card-content {
+    padding-left: 5%;
+}
+
+#pagination {
+    margin-left: 47.5%;
+}
