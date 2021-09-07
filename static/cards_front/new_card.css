@@ -1,0 +1,37 @@
+#card-form {
+    margin: 5% 30% 5% 25%;
+    padding: 1% 5% 5% 7.5%;
+}
+
+#card-form ul li {
+    list-style: none;
+    margin-top: 2%;
+}
+
+#card-form #card-create-header {
+    background:skyblue;
+    color: white;
+    text-align: center;
+    width: 100%;
+    padding: 1% 5% 1% 5%;
+    margin-bottom: 2.5%;
+}
+
+#card-form #word-form {
+    width: 350px;
+    height: 150px;
+}
+
+#card-form #answer-form {
+    width: 350px;
+    height: 150px;
+}
+
+#card-form .form-header {
+    color: gray;
+    font-size: 25px;
+}
+
+#card-form #create-button {
+    margin-left: 80%;
+}
