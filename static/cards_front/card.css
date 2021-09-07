@@ -1,0 +1,32 @@
+#app {
+    margin: 0% 25% 0% 30%;
+}
+
+#card {
+    border-style: solid;
+    border-width: 1px;
+    border-color:black;
+    width: 500px;
+    height: 250px;
+    padding: 2.5% 5% 2.5% 5%;
+    margin: 5% 5% 1.5% 5%;
+}
+
+#card .content-type {
+    color: gray;
+    font-size: 20px;
+}
+
+#card .content {
+    padding-left: 5%;
+    word-break: break-all;
+}
+
+#author-name {
+    margin-left: 450px;
+}
+
+#copy-button {
+    margin-top: 1.5%;
+    margin-left: 5%;
+}
