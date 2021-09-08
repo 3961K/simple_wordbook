@@ -11,6 +11,12 @@
 
 {% block content %}
     <div id="app">
+        {% if user.is_authenticated %}
+            <button type="button" class="btn btn-primary rounded-pill" id="new-card-button">
+                <a href="{% url 'cards_front:new_card' %}">+ 新規カード</a>
+            </button>
+        {% endif %}
+
         <div id="card-search-form">
             <form class="form-inline my-2 my-lg-0" action="" method="GET" v-on:submit.prevent="get_cards_per_page(1, true)">
                 <input name="q" class="form-control" type="text" value="" placeholder="単語名" v-model="q">
