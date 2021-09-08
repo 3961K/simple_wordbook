@@ -14,6 +14,7 @@
         <div id="card-form">
             <span id="card-create-header">新規カード作成</span>
             <form class="form-inline my-2 my-lg-0" action="" method="POST" v-on:submit.prevent="create_card()">
+                {% csrf_token %}
                 <ul>
                     <li><span class="form-header">Word </span><br><textarea id="word-form" name=”word” wrap=”hard” value="" v-model="word" required></textarea></li>
                     <li><span class="form-header">Answer </span><br><textarea id="answer-form" name=”answer” wrap=”hard” value="" v-model="answer" required></textarea></li>
