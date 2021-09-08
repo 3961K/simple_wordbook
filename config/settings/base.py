@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'authentication_front',
     'users_front',
     'cards_front',
+    'wordbooks_front',
 ]
 
 MIDDLEWARE = [
