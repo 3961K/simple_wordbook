@@ -1,5 +1,20 @@
+#new-card-button {
+    margin-top: 2.5%;
+    margin-left: 70%;
+}
+
+#new-card-button a {
+    color: white;
+    text-decoration: none;
+}
+
+#new-card-button a:hover {
+    color: white;
+    text-decoration: none;
+}
+
 #card-search-form {
-    margin-top: 5%;
+    margin-top: 2.5%;
     margin-left: 37.5%;
 }
 
