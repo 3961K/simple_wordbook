@@ -20,7 +20,7 @@
 
         <div id="wordbook-list">
             <ul>
-                <li class="wordbook" v-for="(wordbook, index) in wordbooks_per_page" v-bind:key="index">
+                <li class="wordbook" v-for="(wordbook, index) in wordbooks_per_page" v-bind:key="index" v-on:click.prevent="redirect_wordbook_url(wordbook.id)">
                     ● ${wordbook.wordbook_name}
                 </li>
             </ul>
