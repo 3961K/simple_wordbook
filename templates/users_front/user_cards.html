@@ -36,14 +36,18 @@
                     <div v-if="card_display_status(index)">
                         <span class="card-content-type">Word</span>
                         <br>
-                        <span class="card-content">${card.word.substring(0, 10)}</span>
-                        <span v-if="card.word.length > 10">...</span>
+                        <a v-bind:href="get_card_page_url(card.id)">
+                            <span class="card-content">${card.word.substring(0, 10)}</span>
+                            <span v-if="card.word.length > 10">...</span>
+                        </a>
                     </div>
                     <div v-else="get_card_display_status(index)">
                         <span class="card-content-type">Answer</span>
                         <br>
-                        <span class="card-content">${card.answer.substring(0, 10)}</span>
-                        <span v-if="card.answer.length > 10">...</span>
+                        <a v-bind:href="get_card_page_url(card.id)">
+                            <span class="card-content">${card.answer.substring(0, 10)}</span>
+                            <span v-if="card.answer.length > 10">...</span>
+                        </a>
                     </div>
                 </li>
             </ul>

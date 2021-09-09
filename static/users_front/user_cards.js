@@ -59,6 +59,9 @@ const app = new Vue({
                 // ステータスコードが2XXでなかった場合はalertでエラー内容を表示
                 window.alert(error.response.data);
             })
+        },
+        get_card_page_url: function(card_id) {
+            return `/cards/${card_id}/`;
         }
     },
     computed: {
