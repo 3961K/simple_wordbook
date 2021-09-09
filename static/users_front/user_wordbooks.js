@@ -59,6 +59,9 @@ const app = new Vue({
                 // ステータスコードが2XXでなかった場合はalertでエラー内容を表示
                 window.alert(error.response.data);
             })
+        },
+        redirect_wordbook_url: function(wordbook_id) {
+            window.location.href = `/wordbooks/${wordbook_id}/`;
         }
     },
     computed: {

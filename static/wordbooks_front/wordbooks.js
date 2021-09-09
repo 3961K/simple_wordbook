@@ -42,6 +42,9 @@ const app = new Vue({
                 window.alert(error.response.data);
             })
         },
+        redirect_wordbook_url: function(wordbook_id) {
+            window.location.href = `/wordbooks/${wordbook_id}/`;
+        }
     },
     computed: {
         wordbook_display_status: function() {
