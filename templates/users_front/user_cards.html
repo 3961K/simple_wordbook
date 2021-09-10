@@ -32,7 +32,7 @@
 
         <div id="card-list">
             <ul>
-                <li class="card" v-for="(card, index) in cards_per_page" v-bind:key="index" v-on:click="card_content(index)">
+                <li class="card" v-for="(card, index) in cards_per_page" v-bind:key="index" v-on:click="change_card_status(card)">
                     <div v-if="card_display_status(index)">
                         <span class="card-content-type">Word</span>
                         <br>
