@@ -1,3 +1,18 @@
+#new-wordbook-button {
+    margin-top: 2.5%;
+    margin-left: 70%;
+}
+
+#new-wordbook-button a {
+    color: white;
+    text-decoration: none;
+}
+
+#new-wordbook-button a:hover {
+    color: white;
+    text-decoration: none;
+}
+
 #wordbook-search-form {
     margin: 2.5% 0% 0% 38.5%;
 }
