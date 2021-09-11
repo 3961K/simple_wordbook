@@ -23,26 +23,26 @@
         {% endif %}
 
         <div id="app">
-            <form action="/api/v1/authentication/login/" method="POST" enctype="multipart/form-data" class="form-horizontal" novalidate="" v-on:submit.prevent="login">
+            <form action="" method="POST" enctype="multipart/form-data" class="form-horizontal" v-on:submit.prevent="login()">
                 {% csrf_token %}
                 <div class="form-group">
                     <div class="input-group mb-2">
                         <div class="input-group-prepend">
                             <div class="input-group-text"><i class="fas fa-user"></i></div>
                         </div>
-                        <input name="username" class="form-control" type="text" value="" placeholder="username" v-model="username" required>
+                        <input name="username" class="form-control" type="text" value="" placeholder="username" required="required" v-model="username">
                     </div>
     
                     <div class="input-group mb-2">
                         <div class="input-group-prepend">
                             <div class="input-group-text"><i class="fas fa-key"></i></div>
                         </div>
-                        <input name="password" class="form-control" type="password" value="" placeholder="password" v-model="password" required>
+                        <input name="password" class="form-control" type="password" value="" placeholder="password" required="required" v-model="password">
                     </div>
 
                     <div class="form-row text-center">
                         <div class="col-12">
-                            <input class="btn btn-primary" type="submit" value="ログイン"/>
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">ログイン</button>
                         </div>
                     </div>
                 </div>
