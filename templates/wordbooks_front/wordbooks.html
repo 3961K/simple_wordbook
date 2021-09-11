@@ -11,6 +11,12 @@
 
 {% block content %}
     <div id="app">
+        {% if user.is_authenticated %}
+            <button type="button" class="btn btn-primary rounded-pill" id="new-wordbook-button">
+                <a href="{% url 'wordbooks_front:new_wordbook' %}">+ 新規単語帳</a>
+            </button>
+        {% endif %}
+
         <div id="wordbook-search-form">
             <form class="form-inline my-2 my-lg-0" action="" method="GET" v-on:submit.prevent="get_wordbooks_per_page(1, true)">
                 <input name="q" class="form-control" type="text" value="" placeholder="単語帳名" v-model="q">

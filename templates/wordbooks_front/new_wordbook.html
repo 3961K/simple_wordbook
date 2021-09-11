@@ -51,13 +51,15 @@
                     <!-- 全体をクリックする事で追加・削除を行うイベントハンドラを実行する -->
                     <li class="card" v-for="(card, index) in cards_per_page" v-bind:key="index" v-on:click="change_card_status(card)">
                         <div v-if="card_display_status(index)">
-                            <span class="card-content-type" v-on:click="card_content(index)">Word</span>
+                            <span class="card-content-type" v-on:click.prevent="card_content(index)">Word</span>
+                            <span class="add-card-mark" v-if="add_card_id_list.includes(card.id)">add</span>
                             <br>
                             <span class="card-content">${card.word}</span>
                         </div>
     
                         <div v-else="get_card_display_status(index)">
-                            <span class="card-content-type" v-on:click="card_content(index)">Answer</span>
+                            <span class="card-content-type" v-on:click.prevent="card_content(index)">Answer</span>
+                            <span class="add-card-mark" v-if="add_card_id_list.includes(card.id)">add</span>
                             <br>
                             <span class="card-content">${card.answer}</span>
                         </div>

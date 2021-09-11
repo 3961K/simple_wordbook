@@ -101,6 +101,13 @@
     padding: 5% 5% 5% 5%;
 }
 
+#card-list .card .add-card-mark {
+    background-color: rgb(72, 221, 72);
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+}
+
 #pagination {
     margin-left: 47.5%;
 }

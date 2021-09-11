@@ -127,7 +127,6 @@ const app = new Vue({
 
             this.$set(this.add_card_list, card_id, add_card_info);
             this.add_card_id_list.push(card_id);
-            console.log(this.add_card_list);
         }
     },
     computed: {
