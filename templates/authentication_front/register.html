@@ -17,35 +17,35 @@
         </div>
 
         <div id="app">
-            <form action="/api/v1/authentication/register/" method="POST" enctype="multipart/form-data" class="form-horizontal" novalidate="" v-on:submit.prevent="register">
+            <form action="/api/v1/authentication/register/" method="POST" enctype="multipart/form-data" class="form-horizontal" v-on:submit.prevent="register()">
                 {% csrf_token %}
                 <div class="form-group">
                     <div class="input-group mb-2">
                         <div class="input-group-prepend">
                             <div class="input-group-text"><i class="fas fa-user"></i></div>
                         </div>
-                        <input name="username" class="form-control" type="text" value="" placeholder="username" v-model="username" required>
+                        <input name="username" type="text" value="" placeholder="username" required="required" class="form-control" v-model="username">
                     </div>
 
                     <div class="input-group mb-2">
                         <div class="input-group-prepend">
                             <div class="input-group-text"><i class="fas fa-envelope"></i></div>
                         </div>
-                        <input name="email" class="form-control" type="email" value="" placeholder="email" v-model="email" required>
+                        <input name="email" type="email" value="" placeholder="email" required="required" class="form-control" v-model="email">
                     </div>
     
                     <div class="input-group mb-2">
                         <div class="input-group-prepend">
                             <div class="input-group-text"><i class="fas fa-key"></i></div>
                         </div>
-                        <input name="password" class="form-control" type="password" value="" placeholder="password" v-model="password" required>
+                        <input name="password" type="password" value="" placeholder="password" required="required" class="form-control" v-model="password">
                     </div>
 
                     <div class="input-group mb-2">
                         <div class="input-group-prepend">
                             <div class="input-group-text"><i class="fas fa-key"></i></div>
                         </div>
-                        <input name="password2" class="form-control" type="password" value="" placeholder="password(確認用)" v-model="password2" required>
+                        <input name="password2" type="password" value="" placeholder="password(確認用)" required="required" class="form-control" v-model="password2">
                     </div>
 
                     <div class="form-row text-center">
