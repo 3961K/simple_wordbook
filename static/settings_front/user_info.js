@@ -44,8 +44,6 @@ const app = new Vue({
                 params.append('icon', icon.files[0]);
             }
 
-            console.log(params);
-
             axios.patch(
                 `/api/v1/users/${this.username}/`, params, {headers: headers}
             )
