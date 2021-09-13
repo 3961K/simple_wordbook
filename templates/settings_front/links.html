@@ -1,8 +1,9 @@
 <div class="settings-links">
     <ul>
+        <li><span value="{{ user.username }}" id="username">ユーザ名: ${ username }</span></li>
         <li><a href="{% url 'settings_front:user_info' %}">ユーザ情報</a></li>
-        <li><a href="">パスワード変更</a></li>
-        <li><a href="">カード</a></li>
-        <li><a href="">単語帳</a></li>
+        <li><a href="{% url 'settings_front:password_change' %}">パスワード変更</a></li>
+        <li><a href="">カード管理</a></li>
+        <li><a href="">単語帳管理</a></li>
     </ul>
 </div>
