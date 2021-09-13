@@ -35,7 +35,7 @@ class UserSerializerTest(APITestCase):
         serializer = UserPrivateSerializer(instance=user)
         expected_json = {'username': 'user_privateserializer',
                          'email': 'user_privateserializer@test.com',
-                         'icon': '/images/default.png'}
+                         'icon': '/media/images/default.png'}
         self.assertEqual(serializer.data, expected_json)
 
     def test_2_valid_and_success_update(self):
