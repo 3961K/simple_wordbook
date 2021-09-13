@@ -26,13 +26,17 @@ const app = new Vue({
             }
         })
         .catch(error => {
-            // ステータスコードが2XXでなかった場合はalertでエラー内容を表示
-            if (error.response.status == 403) {
-                window.location.href = '/error/403/';
-            }
-            else
-            {
-                window.alert('カード情報が取得できませんでした。');
+            // ステータスコードが2XXでなかった場合はalertでリダイレクトまたはエラー内容を表示
+            switch (error.response.status) {
+                case 403:
+                    window.location.href = '/error/403/';
+                    break;
+                case 404:
+                    window.location.href = '/error/404/';
+                    break;
+                default:
+                    window.alert('カード情報が取得できませんでした。');
+                    break;
             }
         })
     },
