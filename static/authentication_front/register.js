@@ -7,6 +7,12 @@ const app = new Vue({
         password2: '',
     },
     methods: {
+        clear_data: function() {
+            this.username = '';
+            this.email = '';
+            this.password = '';
+            this.password2 = '';
+        },
         register: function() {
             // CSRFTokenを取得
             const csrftoken = $cookies.get('csrftoken');
@@ -29,16 +35,8 @@ const app = new Vue({
             })
             .catch(error => {
                 // ステータスコードが2XXでなかった場合はalertでエラー内容を表示
-                let error_message = '';
-                console.log(error.response.data);
-                for (const [key, value] of Object.entries(error.response.data)) {
-                    if (key == 'non_field_errors') {
-                        error_message += `${value}\n`;
-                    } else {
-                        error_message += `${key}: ${value}\n`;
-                    }
-                }
-                window.alert(error_message);
+                window.alert('ユーザ登録に失敗しました。');
+                this.clear_data();
             })
         }
     }

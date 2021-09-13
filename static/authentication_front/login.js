@@ -5,6 +5,10 @@ const app = new Vue({
         password: '',
     },
     methods: {
+        clear_data: function() {
+            this.username = '';
+            this.password = '';
+        },
         login: function() {
             // CSRFTokenを取得
             const csrftoken = $cookies.get('csrftoken');
@@ -25,16 +29,8 @@ const app = new Vue({
             })
             .catch(error => {
                 // ステータスコードが2XXでなかった場合はalertでエラー内容を表示
-                let error_message = '';
-                console.log(error.response.data);
-                for (const [key, value] of Object.entries(error.response.data)) {
-                    if (key == 'non_field_errors') {
-                        error_message += `${value}\n`;
-                    } else {
-                        error_message += `${key}は${value}\n`;
-                    }
-                }
-                window.alert(error_message);
+                window.alert('ログインに失敗しました。');
+                this.clear_data();
             })
         }
     }

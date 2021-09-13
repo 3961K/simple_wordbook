@@ -27,9 +27,7 @@ const app = new Vue({
         })
         .catch(error => {
             // ステータスコードが2XXでなかった場合はalertでエラー内容を表示
-            this.word = 'カード情報が取得できませんでした';
-            this.answer = 'カード情報が取得できませんでした';
-            this.author = '不明';
+            window.alert('カード情報が取得できませんでした。');
         })
     },
     methods: {
@@ -59,17 +57,11 @@ const app = new Vue({
                 let error_message = '';
 
                 if (error.response.status == 403) {
-                    error_message = '認証が行われている必要があります';
+                    error_message = '認証が行われている必要があります。';
                 }
                 else
                 {
-                    for (const [key, value] of Object.entries(error.response.data)) {
-                        if (key == 'non_field_errors') {
-                            error_message += `${value}\n`;
-                        } else {
-                            error_message += `${key}は${value}\n`;
-                        }
-                    }    
+                    error_message = 'カードのコピーに失敗しました。';
                 }
                 window.alert(error_message);
             })

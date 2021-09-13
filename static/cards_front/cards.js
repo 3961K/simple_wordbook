@@ -39,7 +39,7 @@ const app = new Vue({
             })
             .catch(error => {
                 // ステータスコードが2XXでなかった場合はalertでエラー内容を表示
-                window.alert(error.response.data);
+                window.alert('カード情報の取得に失敗しました。');
             })
         },
         get_card_page_url: function(card_id) {
