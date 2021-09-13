@@ -34,13 +34,17 @@ const app = new Vue({
                 }
             })
             .catch(error => {
-                // ステータスコードが2XXでなかった場合はalertでエラー内容を表示
-                if (error.response.status == 403) {
-                    window.location.href = '/error/403/';
-                }
-                else
-                {
-                    window.alert('単語帳情報の取得に失敗しました。');
+                // ステータスコードが2XXでなかった場合はalertでリダイレクトまたはエラー内容を表示
+                switch (error.response.status) {
+                    case 403:
+                        window.location.href = '/error/403/';
+                        break;
+                    case 404:
+                        window.location.href = '/error/404/';
+                        break;
+                    default:
+                        window.alert('単語帳情報の取得に失敗しました。');
+                        break;
                 }
             })
         },
@@ -67,13 +71,17 @@ const app = new Vue({
                 }
             })
             .catch(error => {
-                // ステータスコードが2XXでなかった場合はalertでエラー内容を表示
-                if (error.response.status == 403) {
-                    window.location.href = '/error/403/';
-                }
-                else
-                {
-                    window.alert('カード情報の取得に失敗しました。');
+                // ステータスコードが2XXでなかった場合はalertでリダイレクトまたはエラー内容を表示
+                switch (error.response.status) {
+                    case 403:
+                        window.location.href = '/error/403/';
+                        break;
+                    case 404:
+                        window.location.href = '/error/404/';
+                        break;
+                    default:
+                        window.alert('カード情報の取得に失敗しました。');
+                        break;
                 }
             })
         },

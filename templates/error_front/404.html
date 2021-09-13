@@ -1,0 +1,17 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block extra_header %}
+    <link rel="stylesheet" href="{% static 'error_front/error_page.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div id="main">
+        <div id="status-code">
+            404 (Not Found)
+        </div>
+        <div id="error-message">
+            指定されたリソースは存在しません。
+        </div>
+    </div>
+{% endblock %}
