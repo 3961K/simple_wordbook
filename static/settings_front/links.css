@@ -1,0 +1,21 @@
+.settings-links {
+    width: 250px;
+    height: 1000px;
+    padding-top: 5%;
+    background-color:#f9f9f9;
+}
+
+.settings-links ul li {
+    list-style: none;
+    padding-top: 12.5%;
+}
+
+.settings-links a {
+    color: gray;
+    text-decoration: none;
+}
+
+.settings-links a:hover {
+    color: lightgray;
+    text-decoration: none;
+}

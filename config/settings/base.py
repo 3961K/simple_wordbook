@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'users_front',
     'cards_front',
     'wordbooks_front',
+    'settings_front',
 ]
 
 MIDDLEWARE = [
