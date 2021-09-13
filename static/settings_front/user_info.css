@@ -1,0 +1,40 @@
+#app {
+    display: flex;
+}
+
+#sidebar {
+    width: 30%;
+    background-color:#f9f9f9;
+}
+
+#main {
+    width: 70%;
+}
+
+#user-update-form {
+    min-width: 450px;
+    width: 45%;
+    margin-top: 10%;
+    margin-left: auto;
+    margin-right: auto;
+    padding : 2%;
+    border : 0.5px solid #cccccc ;
+    border-radius: 1em;
+    background-color: #ffffff;
+}
+
+#user-update-form #user-update-form-header {
+    background:skyblue;
+    color: white;
+    text-align: center;
+    width: 100%;
+    padding: 1% 5% 1% 5%;
+    margin-bottom: 2.5%;
+}
+
+#current_icon .icon {
+    margin: 1% 0% 1% 45%;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
