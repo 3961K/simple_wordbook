@@ -8,6 +8,11 @@ const app = new Vue({
         is_hidden: false,
     },
     methods: {
+        clear_data: function() {
+            this.word = '';
+            this.answer = '';
+            this.is_hidden = false;
+        },
         create_card: function() {
             // CSRFTokenを取得
             const csrftoken = $cookies.get('csrftoken');
@@ -29,12 +34,13 @@ const app = new Vue({
                     this.word = '';
                     this.answer = '';
                     this.is_hidden = false;
-                    window.alert('カードの作成に成功しました');
+                    window.alert('カードの作成に成功しました。');
                 }
             })
             .catch(error => {
                 // ステータスコードが2XXでなかった場合はalertでエラー内容を表示
-                window.alert(error.response.data);
+                window.alert('カードの作成に失敗しました。');
+                this.clear_data();
             })
         }
     },

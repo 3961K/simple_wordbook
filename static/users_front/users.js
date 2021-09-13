@@ -36,7 +36,7 @@ const app = new Vue({
             })
             .catch(error => {
                 // ステータスコードが2XXでなかった場合はalertでエラー内容を表示
-                window.alert(error.response.data);
+                window.alert('ユーザ情報の取得に失敗しました。');
             })
         },
         get_user_page_url: function(username) {
