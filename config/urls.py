@@ -27,6 +27,7 @@ urlpatterns = [
     path('cards/', include('cards_front.urls')),
     path('wordbooks/', include('wordbooks_front.urls')),
     path('settings/', include('settings_front.urls')),
+    path('error/', include('error_front.urls')),
 ]
 
 if settings.DEBUG:

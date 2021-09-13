@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'cards_front',
     'wordbooks_front',
     'settings_front',
-    'errror_front',
+    'error_front',
 ]
 
 MIDDLEWARE = [

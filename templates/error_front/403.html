@@ -1,0 +1,17 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block extra_header %}
+    <link rel="stylesheet" href="{% static 'error_front/error_page.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div id="main">
+        <div id="status-code">
+            403 (Forbidden)
+        </div>
+        <div id="error-message">
+            アクセス権限がありません。
+        </div>
+    </div>
+{% endblock %}

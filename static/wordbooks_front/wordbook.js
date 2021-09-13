@@ -17,12 +17,12 @@ const app = new Vue({
         // 単語帳IDをブラウザに表示されているURLから取得する
         this.wordbook_id = window.location.pathname.split('/')[2];
         // 単語帳の情報を取得する
-        this.get_wordbook_information();
+        await this.get_wordbook_information();
         // 単語帳に含まれているカードを取得する
         this.get_cards_per_page(1);
     },
     methods: {
-        get_wordbook_information: function() {  
+        get_wordbook_information: function() {
             // 単語帳名・単語帳の作者名を取得する
             axios.get(
                 `/api/v1/wordbooks/${this.wordbook_id}/`
@@ -35,7 +35,13 @@ const app = new Vue({
             })
             .catch(error => {
                 // ステータスコードが2XXでなかった場合はalertでエラー内容を表示
-                window.alert(error.response.data);
+                if (error.response.status == 403) {
+                    window.location.href = '/error/403/';
+                }
+                else
+                {
+                    window.alert('単語帳情報の取得に失敗しました。');
+                }
             })
         },
         get_cards_per_page: function(page_number, is_with_q=false) {
@@ -62,7 +68,13 @@ const app = new Vue({
             })
             .catch(error => {
                 // ステータスコードが2XXでなかった場合はalertでエラー内容を表示
-                window.alert(error.response.data);
+                if (error.response.status == 403) {
+                    window.location.href = '/error/403/';
+                }
+                else
+                {
+                    window.alert('カード情報の取得に失敗しました。');
+                }
             })
         },
         get_card_page_url: function(card_id) {
