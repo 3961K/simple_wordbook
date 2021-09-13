@@ -27,7 +27,13 @@ const app = new Vue({
         })
         .catch(error => {
             // ステータスコードが2XXでなかった場合はalertでエラー内容を表示
-            window.alert('カード情報が取得できませんでした。');
+            if (error.response.status == 403) {
+                window.location.href = '/error/403/';
+            }
+            else
+            {
+                window.alert('カード情報が取得できませんでした。');
+            }
         })
     },
     methods: {
@@ -54,16 +60,13 @@ const app = new Vue({
             })
             .catch(error => {
                 // ステータスコードが2XXでなかった場合はalertでエラー内容を表示
-                let error_message = '';
-
                 if (error.response.status == 403) {
-                    error_message = '認証が行われている必要があります。';
+                    window.location.href = '/error/403/';
                 }
                 else
                 {
-                    error_message = 'カードのコピーに失敗しました。';
+                    window.alert('カードのコピーに失敗しました。');
                 }
-                window.alert(error_message);
             })
         }
     },
