@@ -1,4 +1,3 @@
-from base64 import b64encode
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -45,7 +44,7 @@ class UserRetrieveUpdateDestroyAPIViewTest(APITestCase):
         self.assertEqual(response.status_code, 200)
         # JSONレスポンスの確認
         expected_json = {"username": "user_rudapiview",
-                         "icon": "http://testserver/images/default.png"}
+                         "icon": "http://testserver/media/images/default.png"}
         self.assertJSONEqual(response.content, expected_json)
 
     def test_2_fail_access_not_exist(self):
@@ -78,20 +77,38 @@ class UserRetrieveUpdateDestroyAPIViewTest(APITestCase):
 
     def test_4_success_update(self):
         # APIViewに対して適切な入力値を送信する事によってユーザ情報を更新する事が出来る
-        image = BytesIO()
-        Image.new('RGB', (512, 512)).save(image, 'PNG')
-        image.seek(0)
-        encode_image = b64encode(image.getvalue())
+        # 現状Webページでのみ利用するので,フォームを利用したユニットテストを作成した
+        img_file = BytesIO()
+        img = Image.new('RGBA', size=(512, 512), color=(255, 255, 255))
+        img.save(img_file, 'png')
+        img_file.name = 'test.png'
+        img_file.seek(0)
 
+        img_dict = {
+            'icon': SimpleUploadedFile(
+                img_file.name,
+                img_file.read(),
+                content_type='image/png')}
         params = {
             'username': 'user_rudapiview2',
-            'email': 'user_rudapiviewA@test.com',
-            'icon': SimpleUploadedFile('user_rudapiview2.png',
-                                       encode_image,
-                                       content_type='multipart/form-data')
+            'email': 'user_rudapiview2@test.com',
+            'icon': img_dict['icon']
         }
 
         user = User.objects.get(username='user_rudapiview')
+        user_id = user.id
+        self.client.force_login(user)
+        response = self.client.patch(reverse('api:v1:users:detail',
+                                             kwargs={'username': 'user_rudapiview'}),
+                                     params,
+                                     format='multipart')
+        # HTTPレスポンスステータスコードの確認
+        self.assertEqual(response.status_code, 200)
+        # 情報が更新されたか確認
+        updated_user = User.objects.get(id=user_id)
+        self.assertEqual(updated_user.username, 'user_rudapiview2')
+        self.assertEqual(updated_user.email, 'user_rudapiview2@test.com')
+        self.assertEqual(updated_user.icon, 'images/test.png')
 
     def test_5_success_delete(self):
         # APIViewに対してログインしているユーザと同じユーザ名のユーザを削除する事が出来る
