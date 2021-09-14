@@ -1,0 +1,70 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block extra_header %}
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js" defer></script>
+    <script src="https://unpkg.com/vue-cookies@1.7.4/vue-cookies.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{% static 'settings_front/wordbooks.js' %}" defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'settings_front/links.css' %}">
+    <link rel="stylesheet" href="{% static 'settings_front/wordbooks.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div id="app">
+        <div id="sidebar">
+            {% include 'settings_front/links.html' %}
+        </div>
+
+        <div id="main">
+            <button type="button" class="btn btn-primary rounded-pill" id="new-wordbook-button">
+                <a href="{% url 'wordbooks_front:new_wordbook' %}">+ 新規単語帳</a>
+            </button>
+
+            <div id="wordbook-search-form">
+                <form class="form-inline my-2 my-lg-0" action="" method="GET" v-on:submit.prevent="get_wordbooks_per_page(1, true)">
+                    <input name="q" class="form-control" type="text" value="" placeholder="単語帳名" v-model="q">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">検索</button>
+                </form>
+            </div>
+
+            <div id="wordbook-list">
+                {% csrf_token %}
+                <ul>
+                    <li class="wordbook-and-button" v-for="(wordbook, index) in wordbooks_per_page" v-bind:key="index">
+                        <div class="wordbook"  v-on:click.prevent="redirect_wordbook_url(wordbook.id)">
+                            ● ${wordbook.wordbook_name}
+                        </div>
+
+                        <div class="edit-button" v-bind:key="index">
+                            <a v-bind:href="get_edit_wordbook_page_url(wordbook.id)">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </div>
+
+                        <div class="delete-button" v-bind:key="index">
+                            <i class="fas fa-trash" v-on:click.prevent="delete_wordbook(wordbook.id, index)"></i>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="pagination">
+                <ul class="pagination">
+                    <div v-if="previous_page">
+                        <li class="page-item">
+                            <span class="page-link" aria-hidden="true" v-on:click="get_wordbooks_per_page(current_page_num - 1)">&laquo;</span>
+                        </li>    
+                    </div>
+
+                    <div v-if="next_page">
+                        <li class="page-item">
+                            <span class="page-link" aria-hidden="true" v-on:click="get_wordbooks_per_page(current_page_num + 1)">&raquo;</span>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
