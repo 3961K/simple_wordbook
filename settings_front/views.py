@@ -2,9 +2,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 
 
-class UserinfoUpdateView(LoginRequiredMixin, TemplateView):
+class UserInfoUpdateView(LoginRequiredMixin, TemplateView):
     template_name = 'settings_front/user_info.html'
 
 
-class UserpasswordChangeView(LoginRequiredMixin, TemplateView):
+class UserPasswordChangeView(LoginRequiredMixin, TemplateView):
     template_name = 'settings_front/password_change.html'
+
+
+class UserCardsView(LoginRequiredMixin, TemplateView):
+    template_name = 'settings_front/cards.html'
