@@ -52,6 +52,30 @@ const app = new Vue({
         get_edit_card_page_url: function(card_id) {
             // カードの編集ページへのリンクを作成
             return `/settings/cards/${card_id}/`;
+        },
+        delete_card: function(card_id, card_index) {
+            // 削除するか確認
+            let partial_card_word = this.cards_per_page[card_index].word.substring(0, 10);
+            if (this.cards_per_page[card_index].word.substring(0, 10).length > 10) {
+                partial_card_word += '...';
+            }
+            window.confirm(`${partial_card_word}を削除しますか?`);
+            // csrftokenを取得
+            const csrftoken = $cookies.get('csrftoken');
+            const headers = {'X-CSRFToken': csrftoken};
+            // 指定したカードを削除
+            axios.delete(
+                `/api/v1/cards/${card_id}/`, {headers: headers}
+            )
+            .then(response => {
+                // カードの削除に成功した事を表示して,ページを再読み込み
+                window.alert('カードの削除に成功しました。');
+                location.reload();
+            })
+            .catch(error => {
+                // ステータスコードが2XXでなかった場合はalertでエラー内容を表示
+                window.alert('カード情報の取得に失敗しました。');
+            })
         }
     },
     computed: {
