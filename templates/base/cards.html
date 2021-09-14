@@ -1,0 +1,45 @@
+<div id="card-search-form">
+    <form class="form-inline my-2 my-lg-0" action="" method="GET" v-on:submit.prevent="get_cards_per_page(1, true)">
+        <input name="q" class="form-control" type="text" value="" placeholder="単語名" v-model="q">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">検索</button>
+    </form>
+</div>
+
+<div id="card-list">
+    <ul>
+        <li class="card" v-for="(card, index) in cards_per_page" v-bind:key="index">
+            <div v-if="card_display_status(index)">
+                <span class="card-content-type" v-on:click="card_content(index)">Word</span>
+                <br>
+                <a v-bind:href="get_card_page_url(card.id)">
+                    <span class="card-content">${card.word.substring(0, 10)}</span>
+                    <span v-if="card.word.length > 10">...</span>
+                </a>
+            </div>
+            <div v-else="get_card_display_status(index)">
+                <span class="card-content-type" v-on:click="card_content(index)">Answer</span>
+                <br>
+                <a v-bind:href="get_card_page_url(card.id)">
+                    <span class="card-content">${card.answer.substring(0, 10)}</span>
+                    <span v-if="card.answer.length > 10">...</span>
+                </a>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<div id="pagination">
+    <ul class="pagination">
+        <div v-if="previous_page">
+            <li class="page-item">
+                <span class="page-link" aria-hidden="true" v-on:click="get_cards_per_page(current_page_num - 1)">&laquo;</span>
+            </li>    
+        </div>
+
+        <div v-if="next_page">
+            <li class="page-item">
+                <span class="page-link" aria-hidden="true" v-on:click="get_cards_per_page(current_page_num + 1)">&raquo;</span>
+            </li>
+        </div>
+    </ul>
+</div>
