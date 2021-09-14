@@ -16,3 +16,7 @@ class UserCardsView(LoginRequiredMixin, TemplateView):
 
 class UserCardView(LoginRequiredMixin, TemplateView):
     template_name = 'settings_front/card.html'
+
+
+class UserWordbooksView(LoginRequiredMixin, TemplateView):
+    template_name = 'settings_front/wordbooks.html'
