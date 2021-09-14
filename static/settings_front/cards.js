@@ -59,7 +59,9 @@ const app = new Vue({
             if (this.cards_per_page[card_index].word.substring(0, 10).length > 10) {
                 partial_card_word += '...';
             }
-            window.confirm(`${partial_card_word}を削除しますか?`);
+            if (!window.confirm(`${partial_card_word}を削除しますか?`)) {
+                return;
+            }
             // csrftokenを取得
             const csrftoken = $cookies.get('csrftoken');
             const headers = {'X-CSRFToken': csrftoken};
