@@ -33,6 +33,7 @@
             </div>
             
             <div id="card-list">
+                {% csrf_token %}
                 <ul>
                     <li class="card-and-button" v-for="(card, index) in cards_per_page" v-bind:key="index">
                         <div class="card">
@@ -58,6 +59,10 @@
                             <a v-bind:href="get_edit_card_page_url(card.id)">
                                 <i class="fas fa-edit"></i>
                             </a>
+                        </div>
+
+                        <div class="delete-button" v-bind:key="index">
+                            <i class="fas fa-trash" v-on:click.prevent="delete_card(card.id, index)"></i>
                         </div>
                     </li>
                 </ul>

@@ -23,3 +23,18 @@
 #card-list .edit-button {
     margin: 30px 0px 0px 5px;
 }
+
+#card-list .edit-button a {
+    color: gray;
+    text-decoration: none;
+}
+
+#card-list .edit-button a:hover {
+    color: gray;
+    text-decoration: none;
+}
+
+#card-list .delete-button {
+    color: gray;
+    margin: 30px 0px 0px 5px;
+}
