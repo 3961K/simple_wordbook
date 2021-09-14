@@ -1,0 +1,36 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block extra_header %}
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js" defer></script>
+    <script src="https://unpkg.com/vue-cookies@1.7.4/vue-cookies.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{% static 'settings_front/card.js' %}" defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'base/cards.css' %}">
+    <link rel="stylesheet" href="{% static 'settings_front/links.css' %}">
+    <link rel="stylesheet" href="{% static 'settings_front/card.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div id="app">
+        <div id="sidebar">
+            {% include 'settings_front/links.html' %}
+        </div>
+
+        <div id="main">
+            <div id="card-form">
+                <span id="card-update-header">カード情報更新</span>
+                <form class="form-inline my-2 my-lg-0" action="" method="" v-on:submit.prevent="update_card()">
+                    {% csrf_token %}
+                    <ul>
+                        <li><span class="form-header">Word </span><br><textarea id="word-form" name=”word” wrap=”hard” value="" v-model="word" required></textarea></li>
+                        <li><span class="form-header">Answer </span><br><textarea id="answer-form" name=”answer” wrap=”hard” value="" v-model="answer" required></textarea></li>
+                        <li>非公開カードとして保存: <input type="checkbox" name="is_hidden" value="true" value="" v-model="is_hidden"></li>
+                        <li><button id="create-button" class="btn btn-outline-success my-2 my-sm-0" type="submit">更新</button></li>
+                    </ul>
+                </form>
+            </div>    
+        </div>
+    </div>
+{% endblock %}
