@@ -12,3 +12,7 @@ class UserPasswordChangeView(LoginRequiredMixin, TemplateView):
 
 class UserCardsView(LoginRequiredMixin, TemplateView):
     template_name = 'settings_front/cards.html'
+
+
+class UserCardView(LoginRequiredMixin, TemplateView):
+    template_name = 'settings_front/card.html'
