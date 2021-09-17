@@ -1,0 +1,99 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block extra_header %}
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js" defer></script>
+    <script src="https://unpkg.com/vue-cookies@1.7.4/vue-cookies.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{% static 'settings_front/wordbook_delete_cards.js' %}" defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'base/cards.css' %}">
+    <link rel="stylesheet" href="{% static 'settings_front/links.css' %}">
+    <link rel="stylesheet" href="{% static 'settings_front/wordbook_delete_cards.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div id="app">
+        <div id="sidebar">
+            {% include 'settings_front/links.html' %}
+        </div>
+
+        <div id="main">
+            <div id="current-wordbook-name">
+                ${wordbook_name}
+            </div>
+
+            <div id="menu">
+                <ul>
+                    <li><a v-bind:href="get_add_cards_to_wordbook_url()">カードの追加</a></li>
+                    <li><a v-bind:href="get_delete_cards_from_wordbook_url()">カードの削除</a></li>
+                </ul>
+            </div>
+    
+            <div id="card-search-form">
+                <!-- 単語帳内からカードを検索 -->
+                <form class="form-inline my-2 my-lg-0" action="" method="GET" v-on:submit.prevent="get_cards_per_page(1, true)">
+                    <input name="q" class="form-control" type="text" value="" placeholder="単語名" v-model="q">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">検索</button>
+                </form>
+            </div>
+
+            <div id="card-list">
+                {% csrf_token %}
+                <ul>
+                    <li class="card-and-button" v-for="(card, index) in cards_per_page" v-bind:key="index">
+                        <div class="card">
+                            <div v-if="card_display_status(index)">
+                                <span class="card-content-type" v-on:click="card_content(index)">Word</span>
+                                <br>
+                                <a v-bind:href="get_card_page_url(card.id)">
+                                    <span class="card-content">${card.word}</span>
+                                </a>
+                            </div>
+                            <div v-else="get_card_display_status(index)">
+                                <span class="card-content-type" v-on:click="card_content(index)">Answer</span>
+                                <br>
+                                <a v-bind:href="get_card_page_url(card.id)">
+                                    <span class="card-content">${card.answer}</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="delete-button" v-bind:key="index">
+                            <i class="fas fa-minus" v-on:click.prevent="delete_card_from_wordbook(card.id, index)"></i>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="pagination">
+                <ul class="pagination">
+                    <div v-if="previous_page">
+                        <li class="page-item">
+                            <span class="page-link" aria-hidden="true" v-on:click="get_cards_per_page(current_page_num - 1)">&laquo;</span>
+                        </li>    
+                    </div>
+    
+                    <div v-if="next_page">
+                        <li class="page-item">
+                            <span class="page-link" aria-hidden="true" v-on:click="get_cards_per_page(current_page_num + 1)">&raquo;</span>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+
+            <div id="name-status-chagnge-form">
+                <div id="name-status-change-header">
+                    単語帳名と公開設定の変更
+                </div>
+                <form class="form-inline my-2 my-lg-0" action="" method="" v-on:submit.prevent="update_wordbook_info()">
+                    <ul>
+                        <li>単語帳名: <input name="wordbook_name" class="form-control" type="text" value="" placeholder="単語帳名" v-model="wordbook_name"></li>
+                        <li>非公開単語帳として保存: <input type="checkbox" name="is_hidden" value="" value="" v-model="is_hidden"></li>
+                        <li><button class="btn btn-outline-success my-2 my-sm-0" type="submit">更新</button></li>
+                    </ul>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
