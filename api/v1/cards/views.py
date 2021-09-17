@@ -13,10 +13,13 @@ from .permissions import IsNotAuthorReadPublicOnly
 
 class CardListFilter(filters.FilterSet):
     q = filters.CharFilter(field_name='word', lookup_expr='contains')
+    exclude_wordbook_id = filters.BaseInFilter(field_name='wordbooks',
+                                               exclude=True,
+                                               lookup_expr='in')
 
     class Meta:
         model = Card
-        fields = ['word']
+        fields = ['word', 'wordbooks']
 
 
 class CardListCreateAPIView(ListCreateAPIView):
