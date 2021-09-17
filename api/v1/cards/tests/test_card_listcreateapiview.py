@@ -5,6 +5,7 @@ from rest_framework.test import APITestCase, APIClient
 from urllib.parse import urlencode
 
 from ..models import Card
+from ...wordbooks.models import Wordbook
 
 User = get_user_model()
 
@@ -18,14 +19,25 @@ class CardListCreateAPIView(APITestCase):
                     password='testpassw0rd123')
         user.save()
 
+        wordbook = Wordbook(
+            wordbook_name='cards_listapiview',
+            author=user
+        )
+        wordbook.save()
+
         for i in range(1, 23):
             is_hidden = False if i <= 11 else True
-            Card.objects.create(
+            card = Card(
                 word='card_listcreateapiview_{}'.format(i),
                 answer='card_listcreateapiview_{}'.format(i),
                 is_hidden=is_hidden,
                 author=user,
             )
+            card.save()
+
+            if i >= 6:
+                card.wordbooks.add(wordbook)
+                card.save()
 
     def test_1_success_get_list(self):
         # 公開状態のカードのリストを取得する事が出来る
@@ -148,3 +160,18 @@ class CardListCreateAPIView(APITestCase):
                                    format='json')
             # HTTPレスポンスの検証
             self.assertEqual(response.status_code, 400)
+
+    def test_9_success_get_list_with_exclude_wordbook_id(self):
+        # exclude_wordbook_idパラメータで指定した単語帳に含まれるカードはカード一覧に含まれない
+        wordbook = Wordbook.objects.get(wordbook_name='cards_listapiview')
+
+        client = APIClient()
+        response = client.get(''.join([reverse('api:v1:cards:list'),
+                                       '?',
+                                       urlencode(dict(exclude_wordbook_id=wordbook.id))]))
+        # HTTPステータスコードの検証
+        self.assertEqual(response.status_code, 200)
+        # 取得した件数の検証
+        json_response = json_loads(response.content)
+        self.assertEqual(json_response['count'], 5)
+        self.assertEqual(len(json_response['results']), 5)
