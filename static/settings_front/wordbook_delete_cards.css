@@ -1,0 +1,69 @@
+#app {
+    display: flex;
+}
+
+#sidebar {
+    width: 30%;
+    background-color:#f9f9f9;
+}
+
+#main {
+    width: 70%;
+}
+
+#current-wordbook-name {
+    margin: 5% 0% 0% 47.5%;
+}
+
+#menu {
+    margin: 5% 0% 10% 32.5%;
+}
+
+#menu ul li {
+    list-style: none;
+    float: left;
+    margin-left: 5%;
+}
+
+#menu a {
+    color: gray;
+    text-decoration: none;
+}
+
+#menu a:hover {
+    color: lightgray;
+    text-decoration: none;
+}
+
+#name-status-chagnge-form {
+    margin: 5% 25% 0% 25%;
+}
+
+#name-status-chagnge-form ul li {
+    list-style: none;
+}
+
+#name-status-chagnge-form #name-status-change-header {
+    color: white;
+    background-color: skyblue;
+    margin-bottom: 2.5%;
+}
+
+#card-search-form {
+    margin-top: 2.5%;
+    margin-left: 37.5%;
+}
+
+#card-list .card-and-button {
+    display: flex;
+}
+
+#card-list .delete-button {
+    color: gray;
+    margin-left: 5px;
+    margin-top: 10%;
+}
+
+#card-list .delete-button:hover {
+    color: lightgray;
+}

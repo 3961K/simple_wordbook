@@ -20,3 +20,7 @@ class UserCardView(LoginRequiredMixin, TemplateView):
 
 class UserWordbooksView(LoginRequiredMixin, TemplateView):
     template_name = 'settings_front/wordbooks.html'
+
+
+class UserDeleteCardsView(LoginRequiredMixin, TemplateView):
+    template_name = 'settings_front/wordbook_delete_cards.html'
