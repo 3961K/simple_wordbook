@@ -15,16 +15,7 @@ const app = new Vue({
         })
         .catch(error => {
             // ステータスコードが2XXでなかった場合はalertでエラー内容を表示
-            let error_message = '';
-            console.log(error.response.data);
-            for (const [key, value] of Object.entries(error.response.data)) {
-                if (key == 'non_field_errors') {
-                    error_message += `${value}\n`;
-                } else {
-                    error_message += `${key}は${value}\n`;
-                }
-            }
-            window.alert(error_message);
+            window.alert('ログアウトに失敗しました。');
         })
     }
 })

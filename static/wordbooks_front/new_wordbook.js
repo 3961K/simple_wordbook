@@ -27,7 +27,7 @@ const app = new Vue({
             // CSRFTokenを取得
             const csrftoken = $cookies.get('csrftoken');
             const headers = {'X-CSRFToken': csrftoken};
-            // 送信する新規単語帳名,公開属性
+            // 送信する新規単語帳名,公開属性を設定
             const params = {
                 'wordbook_name': this.new_wordbook_name,
                 'is_hidden': this.is_hidden
@@ -44,14 +44,14 @@ const app = new Vue({
             })
             .catch(error => {
                 // ステータスコードが2XXでなかった場合はalertでエラー内容を表示
-                window.alert(error.response.data);
+                window.alert('単語帳の作成に失敗しました。');
             })
         },
         add_cards_to_new_wordbook: function (wordbook_id) {   
             // CSRFTokenを取得
             const csrftoken = $cookies.get('csrftoken');
             const headers = {'X-CSRFToken': csrftoken};
-            // 新しく作成した単語帳にadd_card_id_listに格納されているカード番号群を送信し,
+            // 新しく作成した単語帳にadd_card_id_listに格納されているカード番号群を設定
             const params = {
                 'add_cards': this.add_card_id_list
             };
@@ -71,8 +71,8 @@ const app = new Vue({
             })
             .catch(error => {
                 // ステータスコードが2XXでなかった場合はalertでエラー内容を表示
-                window.alert(error.response.data);
-            })            
+                window.alert('単語帳へカードを追加する事に失敗しました。');
+            })
         },
         get_cards_per_page: function(page_number, with_q=false){
             // 指定したページ,パラメータを利用してユーザの情報の取得を行う
@@ -104,7 +104,7 @@ const app = new Vue({
             })
             .catch(error => {
                 // ステータスコードが2XXでなかった場合はalertでエラー内容を表示
-                window.alert(error.response);
+                window.alert('カード情報の取得に失敗しました。');
             })
         },
         get_card_page_url: function(card_id) {
