@@ -33,7 +33,7 @@
                 {% csrf_token %}
                 <ul>
                     <li class="wordbook-and-button" v-for="(wordbook, index) in wordbooks_per_page" v-bind:key="index">
-                        <div class="wordbook"  v-on:click.prevent="redirect_wordbook_url(wordbook.id)">
+                        <div class="wordbook" v-on:click.prevent="redirect_wordbook_url(wordbook.id)">
                             ● ${wordbook.wordbook_name}
                         </div>
 
