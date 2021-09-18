@@ -51,7 +51,7 @@ const app = new Vue({
         },
         get_edit_wordbook_page_url: function(wordbook_id) {
             // 単語帳の編集ページへのリンクを作成
-            return `/settings/wordbooks/${wordbook_id}/`;
+            return `/settings/wordbooks/${wordbook_id}/add-cards/`;
         },
         delete_wordbook: function(wordbook_id, wordbook_index) {
             // 削除するか確認
