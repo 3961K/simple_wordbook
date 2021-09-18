@@ -23,8 +23,7 @@ const app = new Vue({
             .then(response => {
                 // ログインに成功した場合はリダイレクトさせる
                 if (response.status == 200){
-                    // 成功した事をalertなどで表示する場合はここに記述
-                    window.location.href = '/authentication/login/';
+                    window.location.href = '/';
                 }
             })
             .catch(error => {
