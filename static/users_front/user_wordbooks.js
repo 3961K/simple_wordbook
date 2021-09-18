@@ -72,18 +72,6 @@ const app = new Vue({
         wordbooks_url: function() {
             // ユーザの単語帳一覧ページのURLを構築する
             return `/users/${this.username}/wordbooks/`;
-        },
-        wordbook_display_status: function() {
-            // 指定したカードの表示状態を返す
-            return function(index) {
-                return this.wordbooks_display_status[index];
-            }
-        },
-        wordbook_content: function() {
-            // 指定したカードの表示状態に基づいてwordまたはanswerを返す
-            return function(index) {
-                this.wordbooks_display_status.splice(index, 1, !this.wordbooks_display_status[index]);
-            }
         }
     }
 })

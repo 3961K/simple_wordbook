@@ -14,12 +14,12 @@ const app = new Vue({
     created: async function() {
         // ユーザ名を取得する
         this.username = document.getElementById('username').getAttribute('value');
-        // カードを取得する
+        // 単語帳を取得する
         this.get_wordbooks_per_page(1);
     },
     methods: {
         get_wordbooks_per_page: function(page_number, with_q=false) {
-            // そのユーザが作成したカードの一覧を取得する
+            // 単語帳の一覧を取得する
             let params = {page: page_number};
             if (with_q) {
                 params['q'] = this.q;
@@ -42,7 +42,7 @@ const app = new Vue({
             })
             .catch(error => {
                 // ステータスコードが2XXでなかった場合はalertでエラー内容を表示
-                window.alert(error.response.data);
+                window.alert('単語帳の情報の取得に失敗しました。');
             })
         },
         redirect_wordbook_url: function(wordbook_id) {
@@ -67,13 +67,13 @@ const app = new Vue({
                 `/api/v1/wordbooks/${wordbook_id}/`, {headers: headers}
             )
             .then(response => {
-                // カードの削除に成功した事を表示して,ページを再読み込み
-                window.alert('カードの削除に成功しました。');
+                // 単語帳の削除に成功した事を表示して,ページを再読み込み
+                window.alert('単語帳の削除に成功しました。');
                 location.reload();
             })
             .catch(error => {
                 // ステータスコードが2XXでなかった場合はalertでエラー内容を表示
-                window.alert('カード情報の取得に失敗しました。');
+                window.alert('単語帳の削除に失敗しました。');
             })   
         }
     }
