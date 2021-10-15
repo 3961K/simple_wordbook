@@ -73,6 +73,14 @@ class WordbookRetrieveDeletePartialUpdateAPIView(RetrieveDeletePartialUpdateAPIV
     permission_classes = [IsNotAuthorReadPublicOnly]
     lookup_field = 'id'
 
+    def get_serializer(self, *args, **kwargs):
+        serializer_class = self.get_serializer_class()
+        kwargs.setdefault('context', self.get_serializer_context())
+        http_method = self.request.method
+        if http_method == 'PATCH':
+            kwargs.update({'user': self.request.user})
+        return serializer_class(*args, **kwargs)
+
     def get_serializer_class(self):
         http_method = self.request.method
         if http_method == 'PATCH':
