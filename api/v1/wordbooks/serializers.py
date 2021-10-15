@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AnonymousUser
 from rest_framework import serializers
 from rest_framework.exceptions import ErrorDetail, ValidationError
+from rest_framework.fields import empty
 
 from .models import Wordbook
 from ..cards.models import Card
@@ -65,11 +67,19 @@ class WordbookUpdateSerializer(serializers.Serializer):
         write_only=True
     )
 
+    def __init__(self, instance=None, data=empty, **kwargs):
+        self.user = kwargs.pop('user', AnonymousUser)
+        super().__init__(instance, data, **kwargs)
+
     def add_cards_to_wordbook(self, instance, add_card_id_list):
         # 逆参照を利用して単語帳にカードを追加
         add_cards = Card.objects.filter(id__in=add_card_id_list).all()
         if len(add_cards) != 0:
             for card in add_cards:
+                # 単語帳に非公開であるのに異なるユーザが作成したカードが含まれていた場合は,
+                # そのカードを単語帳に追加しない様にする
+                if card.is_hidden and card.author != self.user:
+                    continue
                 instance.cards.add(card)
                 instance.save()
 
