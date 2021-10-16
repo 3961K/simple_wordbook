@@ -28,6 +28,10 @@ const app = new Vue({
         )
         .then(response => {
             if (response.status == 200){
+                // 作者でないのに単語帳へカードを追加しようとした場合は403へリダイレクト
+                if (this.username != response.data.author_name) {
+                    window.location.href = '/error/403/';
+                }
                 this.wordbook_name = response.data.wordbook_name;
                 this.is_hidden = response.data.is_hidden;
             }
