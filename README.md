@@ -191,12 +191,19 @@
 - /api/v1/cards/\<uuid:id\>/に対して、対象のカードの作者としてログインしている場合にPATCHメソッドで新しいword・answer・is_hiddenをHTTPリクエストで送信する事で指定したカードの情報を更新する事が可能です。
   - 対象のカードの作者としてログインしないでPATCHメソッドでカードの更新を試みようとした場合は、カードの更新は行われず403が返されます。
 
+- (例) /api/v1/cards/\<uuid:id\>/に対して、カード更新を行う時のリクエストとレスポンス
+
+<img width="1146" alt="update_card" src="https://user-images.githubusercontent.com/80889322/137642334-07fd09fe-a25a-4e8e-9ebe-2660a9408316.png">
+<img width="1141" alt="update_card_response" src="https://user-images.githubusercontent.com/80889322/137642339-3a6db047-f0dd-40d9-aa21-28d81adb1cbd.png">
+
 #### Web フロントエンド
 
 - ログインしている状態で/settings/cards/\<uuid:id\>/にアクセスし、対象のカードのword・answer・is_hiddenの新しい値を設定し 更新 を選択する事で、カードの更新を行う事が可能です。
   - 更新 が選択された時に、/api/v1/cards/\<uuid:id\>/に対して非同期でPATCHメソッドで新しいカードの情報をHTTPリクエストで送信する事でカード情報の更新を行っております。
   - /settings/にアクセスして カード管理 を選択する事でカードの一覧ページ(/settings/cards/)にアクセスし、そこから任意のカードの 編集ボタン を選択する事でカードの編集ページにアクセスする事が可能です。
   - 自分が作成していないカードのUUIDを指定した場合は、403ページへリダイレクトされます。
+
+![update_card](https://user-images.githubusercontent.com/80889322/137642259-2ede6788-2bac-481b-a75d-c2179f718035.gif)
 
 ### カード削除
 
