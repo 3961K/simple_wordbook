@@ -28,3 +28,7 @@ class UserDeleteCardsView(LoginRequiredMixin, TemplateView):
 
 class UserAddCardsView(LoginRequiredMixin, TemplateView):
     template_name = 'settings_front/wordbook_add_cards.html'
+
+
+class DeleteUserView(LoginRequiredMixin, TemplateView):
+    template_name = 'settings_front/delete_user.html'

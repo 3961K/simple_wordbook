@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import UserInfoUpdateView, UserPasswordChangeView, UserCardsView, \
+from .views import DeleteUserView, UserInfoUpdateView, UserPasswordChangeView, UserCardsView, \
     UserCardView, UserWordbooksView, UserAddCardsView, UserDeleteCardsView
 
 app_name = 'settings_front'
@@ -13,4 +13,5 @@ urlpatterns = [
     path('wordbooks/', UserWordbooksView.as_view(), name='wordbooks'),
     path('wordbooks/<uuid:id>/add-cards/', UserAddCardsView.as_view(), name='add_wordbook_cards'),
     path('wordbooks/<uuid:id>/delete-cards/', UserDeleteCardsView.as_view(), name='delete_wordbook_cards'),
+    path('delete-user/', DeleteUserView.as_view(), name='delete_user'),
 ]
