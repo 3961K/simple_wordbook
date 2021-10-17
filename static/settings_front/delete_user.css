@@ -1,0 +1,21 @@
+#app {
+    display: flex;
+}
+
+#sidebar {
+    width: 30%;
+    background-color:#f9f9f9;
+}
+
+#main {
+    width: 70%;
+}
+
+.confirm-form {
+    width: 33%;
+    margin: 20% 20% 20% 30%;
+}
+
+.confirm-form #delete_button {
+    margin-left: 80%;
+}

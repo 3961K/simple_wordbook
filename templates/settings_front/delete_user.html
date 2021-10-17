@@ -1,0 +1,28 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block extra_header %}
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js" defer></script>
+    <script src="https://unpkg.com/vue-cookies@1.7.4/vue-cookies.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{% static 'settings_front/delete_user.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static 'settings_front/links.css' %}">
+    <link rel="stylesheet" href="{% static 'settings_front/delete_user.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div id="app">
+        <div id="sidebar">
+            {% include 'settings_front/links.html' %}
+        </div>
+
+        <div id="main">
+            <div class="confirm-form">
+                <div class="alert alert-danger" role="alert">
+                    ⚠️{{ user.username }}のアカウント削除を行おうとしています。本当によろしいですか？<br>
+                    <button id="delete_button" v-on:click="delete_user" type="button" class="btn btn-outline-danger">削除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
